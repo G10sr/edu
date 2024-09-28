@@ -66,14 +66,17 @@ async function mostrarUsuarios() {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.className = 'checkbox';
-            checkbox.dataset.i = i;
-            checkbox.dataset.l = l;
-            checkbox.dataset.userid = ids[i]; // Guardar el ID del usuario
-            checkbox.onclick = (event) => handleCheckboxClick(event, ids[i], permisosUsuarios[i]); // Manejar el click en el checkbox
+            checkbox.dataset.i = i;   // Asigna el índice de usuario al dataset
+            checkbox.dataset.l = l;   // Asigna el rol al dataset
+            checkbox.dataset.userid = ids[i]; // Asignar el id del usuario al dataset
+
+            // Asignar evento onclick para actualizar el rol
+            checkbox.onclick = function(event) {
+                handleCheckboxClick(event, ids[i], permisosUsuarios[i], l);
+            };
 
             const label = document.createElement('label');
             label.className = 'labelsmanager';
-            label.htmlFor = checkbox.id;
             label.textContent = l === 0 ? 'None' : (l === 1 ? 'Admin' : 'Profesor');
 
             checkbox.checked = (rolIds[i] === 0 && l === 0) ||
@@ -83,7 +86,7 @@ async function mostrarUsuarios() {
             checkboxContainer.appendChild(checkbox);
             checkboxContainer.appendChild(label);
             checkboxContainer.appendChild(document.createElement('br'));
-            checkboxContainer.className="chex"
+            checkboxContainer.className = "chex";
         }
 
         // Checkbox para el permiso
@@ -91,41 +94,44 @@ async function mostrarUsuarios() {
         permisoCheckbox.type = 'checkbox';
         permisoCheckbox.className = 'permiso-checkbox';
         permisoCheckbox.checked = permisosUsuarios[i] === 1;
-        permisoCheckbox.dataset.userid = ids[i];
-        permisoCheckbox.onclick = (event) => handlePermisoCheckboxClick(event, ids[i]);
+
+        // Asignar evento onclick para actualizar el permiso
+        permisoCheckbox.onclick = function(event) {
+            handlePermisoCheckboxClick(event, ids[i], rolIds[i]);
+        };
 
         const permisoLabel = document.createElement('label');
         permisoLabel.textContent = "Permiso";
-        permisoLabel.className="Nox";
+        permisoLabel.className = "Nox";
         permisoLabel.appendChild(permisoCheckbox);
         permisoP.appendChild(document.createElement('br'));
         permisoP.appendChild(permisoLabel);
-        permisoP.className="peng";
-
+        permisoP.className = "peng";
 
         nom.appendChild(mail);
         caja.appendChild(nom);
         caja.appendChild(permisoP);
-        
-        
         caja.appendChild(checkboxContainer); 
-        
         
         contenedor.appendChild(caja);
     }
 }
+function handleCheckboxClick(event, userId, currentPermiso, newRol) {
+    // Si el nuevo rol es undefined o null, asignar 0 (o el valor que signifique "sin rol")
+    if (newRol === null || newRol === undefined) {
+        newRol = 0; // Cambia este valor si "0" no representa el estado correcto de "sin rol"
+    }
 
-function handleCheckboxClick(event, userId, currentPermiso) {
-    const checkbox = event.target;
-    const newRol = parseInt(checkbox.dataset.l); // Obtener el nuevo rol desde el dataset
+    console.log(`userId: ${userId}, newRol: ${newRol}, currentPermiso: ${currentPermiso}`);
 
-    const sameIGroupCheckboxes = document.querySelectorAll(`.checkbox[data-i="${checkbox.dataset.i}"]`);
+    // Desmarcar otros checkboxes del mismo grupo (i)
+    const sameIGroupCheckboxes = document.querySelectorAll(`.checkbox[data-i="${event.target.dataset.i}"]`);
     sameIGroupCheckboxes.forEach((cb) => {
-        if (cb !== checkbox) {
-            cb.checked = false;
+        if (cb !== event.target) {
+            cb.checked = false; // Desmarca todos los demás checkboxes del mismo grupo
         }
     });
-    console.log(userId + ''+newRol+ ''+currentPermiso )
+
     // Realizar la solicitud para actualizar el rol y el permiso del usuario
     fetch('/api/update-user', {
         method: 'POST',
@@ -141,19 +147,28 @@ function handleCheckboxClick(event, userId, currentPermiso) {
     .catch(error => {
         console.error('Error updating user role:', error);
     });
+    setTimeout(refresh, 300);
 }
 
-function handlePermisoCheckboxClick(event, userId) {
+function handlePermisoCheckboxClick(event, userId, currentRol) {
     const checkbox = event.target;
-    const newPermiso = checkbox.checked ? 1 : 0; // Si el checkbox está marcado, el permiso es 1, de lo contrario, es 0
+    let newPermiso = checkbox.checked ? 1 : 0; // Solo 1 o 0 deberían ser válidos
 
-    // Realizar la solicitud para actualizar el permiso del usuario
+    // Verificar si newPermiso tiene un valor válido
+    if (newPermiso !== 1 && newPermiso !== 0) {
+        console.error('Invalid value for permiso:', newPermiso);
+        newPermiso = 0;
+    }
+
+    console.log(`userId: ${userId}, currentRol: ${currentRol}, newPermiso: ${newPermiso}`);
+
+    // Realizar la solicitud para actualizar el permiso y el rol del usuario
     fetch('/api/update-user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) // Enviar el ID del usuario y el nuevo permiso
+        body: JSON.stringify({ userId: userId, newRol: currentRol, newPermiso: newPermiso }) // Enviar el ID del usuario, el nuevo rol y el nuevo permiso
     })
     .then(response => response.json())
     .then(data => {
@@ -163,8 +178,6 @@ function handlePermisoCheckboxClick(event, userId) {
         console.error('Error updating user permiso:', error);
     });
 }
-
-
 
 function refresh() {
     var contenedor = document.getElementById("grid");

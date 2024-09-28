@@ -338,6 +338,7 @@ app.get('/contarAnuncios', (req, res, next) => {
 app.get('/api/usuarios', (req, res) => {
     const queryUsuarios = `
         SELECT 
+        usuarios.id,
             usuarios.name, 
             usuarios.email, 
             usuarios.permiso, 
