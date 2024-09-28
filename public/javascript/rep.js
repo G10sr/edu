@@ -41,7 +41,8 @@ async function mostrarTexto() {
     var tiporeporteReverse = tiporeporte.reverse();
     var aulaReverse = aula.reverse();
     var fecha1Reverse = fecha1.reverse();
-    
+    var thereissomething = 0;
+
 
     var contenedor = document.getElementById("grid");
     for (var i = 0; i < nomreportes.length; i++) {
@@ -50,6 +51,7 @@ async function mostrarTexto() {
         let fecha4 = fecha.split("/").join(""); 
         if ((fecha4 == fechaSinSimbolos && vigenciareportesReverse[i] == 0) || 
         (vigenciareportesReverse[i] != 0)){
+                thereissomething = 1;
                 let vigenciatotal = 'Resuelto ✔️';
                 let tiporeportetotal = 'Ninguno Especifico';
 
@@ -125,6 +127,27 @@ async function mostrarTexto() {
                 caja.appendChild(tip);
                 contenedor.appendChild(caja);
             }
+    }
+    if (thereissomething == 0){
+        const mensajes = [
+            "¡Nada que reportar! 💤",
+            "Todo tranquilo por aquí. 🌊",
+            "Silencio absoluto. 🤫",
+            "Nada por el momento, ¡disfruta un café! ☕",
+            "No hay reportes, ¡a seguir sonriendo! 😄",
+            "Todo en calma, como un gato en el sol. ☀️",
+            "Sin novedades, ¡dame un aplauso! 👏",
+            "¿Vacaciones? ¡Casi! Sin reportes hoy. 🏖️",
+            "Sin reportes, ¡así que a bailar! 💃",
+            "Todo bien, ¡nada de dramas aquí! 🎭"
+        ];
+    
+        const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+        let nombre = document.createTextNode(mensajeAleatorio);
+        let nom = document.createElement("p");
+        nom.setAttribute("class", "nothingnew");
+        nom.appendChild(nombre.cloneNode(true));
+        contenedor.append(nom);
     }
 }
 function refresh() {
@@ -304,4 +327,18 @@ window.onload = function() {
     var issueBox = document.getElementById("issuebox");
     issueBox.style.display = 'none';
 };
-
+function logout() {
+    fetch('/api/logout', {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = '/iniciosesion.html'; 
+        } else {
+            console.error('Error al cerrar sesión');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}

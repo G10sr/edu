@@ -272,3 +272,19 @@ async function verificarNuevosReportes() {
         console.error('Error al verificar reportes:', error);
     });
         }
+
+        function logout() {
+            fetch('/api/logout', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/iniciosesion.html'; 
+                } else {
+                    console.error('Error al cerrar sesión');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }

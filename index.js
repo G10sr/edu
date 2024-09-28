@@ -338,7 +338,7 @@ app.get('/contarAnuncios', (req, res, next) => {
 app.get('/api/usuarios', (req, res) => {
     const queryUsuarios = `
         SELECT 
-        usuarios.id,
+            usuarios.id,
             usuarios.name, 
             usuarios.email, 
             usuarios.permiso, 
@@ -347,7 +347,8 @@ app.get('/api/usuarios', (req, res) => {
         FROM 
             usuarios
         JOIN 
-            roles ON usuarios.rol_id = roles.id;
+            roles ON usuarios.rol_id = roles.id
+         ORDER BY usuarios.id DESC;
     `;
 
     connection.query(queryUsuarios, (error, results) => {
@@ -373,5 +374,13 @@ app.post('/api/update-user', (req, res) => {
         }
 
         res.json({ success: true, message: 'Usuario actualizado correctamente' });
+    });
+});
+app.post('/api/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Error al cerrar sesión');
+        }
+        res.status(200).send('Sesión cerrada');
     });
 });

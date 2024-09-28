@@ -36,6 +36,7 @@ async function mostrarTexto() {
     var usuarionomReverse = usuarionom.reverse(); 
     var aulaReverse = aula.reverse();
     var fecha1Reverse = fecha1.reverse();
+    var thereissomething = 0;
 
     var contenedor = document.getElementById("grid");
    
@@ -46,6 +47,7 @@ async function mostrarTexto() {
         console.log(fecha4+""+fechaSinSimbolos)
         if ((fecha4 == fechaSinSimbolos && vigenciaanunciosReverse[i] == 0) || 
         (vigenciaanunciosReverse[i] != 0)){
+            thereissomething =1;
             console.log(fecha4+""+fechaSinSimbolos)
             let vigenciatotal = 'Resuelto ✔️';
 
@@ -96,6 +98,26 @@ async function mostrarTexto() {
             contenedor.appendChild(caja);
         }
     }   
+    if (thereissomething == 0){
+        const mensajes = [
+            "¡Sin anuncios hoy! 🎉",
+            "No hay anuncios, ¡disfruta del momento! 🌟",
+            "Hoy no hay novedades, ¡relájate! 😌",
+            "Nada que anunciar, ¡la calma esta en aire! 🌈",
+            "Sin anuncios, ¡así que a pensar en helados! 🍦",
+            "Todo tranquilo, ¡a seguir soñando! 💭",
+            "Nada por aquí, ¡a seguir brillando! ✨",
+            "Sin anuncios, ¡dame un high five! 🙌",
+            "No hay anuncios, ¡así que a bailar! 💃"
+        ];
+    
+        const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+        let nombre = document.createTextNode(mensajeAleatorio);
+        let nom = document.createElement("p");
+        nom.setAttribute("class", "nothingnew");
+        nom.appendChild(nombre.cloneNode(true));
+        contenedor.append(nom);
+    }
 }
 
 function refresh() {
@@ -255,3 +277,19 @@ function verificarNuevosReportes() {
         }
 
  setInterval(verificarNuevosReportes, 5000);
+
+ function logout() {
+    fetch('/api/logout', {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = '/iniciosesion.html'; 
+        } else {
+            console.error('Error al cerrar sesión');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}

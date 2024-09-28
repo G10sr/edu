@@ -29,6 +29,21 @@ body{
     transition: 300ms;
     
 }
+#navbar {
+    position: absolute; 
+    top: 10px;
+    right: 10px;
+}
+
+#logoutButton {
+    background-color: transparent;
+    color: rgb(255, 0, 0); 
+    border: none; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    
+}
 #refresh{
     scale: 1.2;
     cursor: pointer;
@@ -38,7 +53,7 @@ body{
     display: flex;
     flex-direction: row;
     position: absolute;
-    top: 3%;
+    top: 4%;
     right:20%;
     gap: 10px;
     font-family:Arial, Helvetica, sans-serif;
@@ -174,9 +189,7 @@ select {
 
 
 .labelsmanager{
-    position: absolute;
     margin: 2vh;
-    transform: translateX(10%);
 }
 .titulobox{
     position: relative;
@@ -252,6 +265,19 @@ select {
     font-size: 1.9dvh;
     font-family: "Nunito", sans-serif;
     font-weight: 1000;
+}
+.nothingnew{
+    position: relative;
+    font-size: 2.6dvh;
+    font-family: "Nunito", sans-serif;
+    margin-left: 3vh;
+    margin-right: 1vh;
+    margin-top: 4vh;
+    font-weight:lighter;
+    justify-content: center;
+    align-self: center;
+    
+    margin-left: 20%;
 }
 @media(min-width:930px) {
     .rp-box{

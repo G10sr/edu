@@ -33,9 +33,12 @@ async function mostrarUsuarios() {
 
     // Bucle para mostrar los usuarios
     for (let i = 0; i < nombresUsuarios.length; i++) {
+
+        if (ids[i] == 4){
+        } else {
         let nombre = document.createTextNode(nombresUsuarios[i]);
         let correo = document.createTextNode(correosUsuarios[i]);
-        let permisoTexto = permisosUsuarios[i] === 1 ? "Con permiso" : "Sin permiso"; // Texto de permiso
+        let permisoTexto = permisosUsuarios[i] === 1 ? "✔️" : "❌"; // Texto de permiso
         let permiso = document.createTextNode("Permiso: " + permisoTexto); 
         let rol = document.createTextNode("Rol: " + rolesUsuarios[i]);
 
@@ -115,6 +118,7 @@ async function mostrarUsuarios() {
         
         contenedor.appendChild(caja);
     }
+    }
 }
 function handleCheckboxClick(event, userId, currentPermiso, newRol) {
     // Si el nuevo rol es undefined o null, asignar 0 (o el valor que signifique "sin rol")
@@ -147,7 +151,6 @@ function handleCheckboxClick(event, userId, currentPermiso, newRol) {
     .catch(error => {
         console.error('Error updating user role:', error);
     });
-    setTimeout(refresh, 300);
 }
 
 function handlePermisoCheckboxClick(event, userId, currentRol) {
@@ -295,4 +298,20 @@ async function verificarNuevosReportes() {
     .catch(error => {
         console.error('Error al verificar reportes:', error);
     });
+        }
+        
+        function logout() {
+            fetch('/api/logout', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/iniciosesion.html'; 
+                } else {
+                    console.error('Error al cerrar sesión');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
