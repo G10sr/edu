@@ -1,7 +1,13 @@
 let reportIds = [];
 let ids = [];
 
+var booling = 0; 
+var booling1 = 0; 
+
+
 async function mostrarTexto() {
+    booling = 0; 
+    booling1 = 0; 
     let nomreportes = [];
     let descripcionreportes = [];
     let vigenciareportes = [];
@@ -197,5 +203,51 @@ window.onload = function() {
     mostrarTexto();
     postverificacion();
     rolesfunc();
-   
+    verificarNuevosReportes();
+    verificarNuevosAnuncios();
 };
+
+async function verificarNuevosReportes() {
+    fetch('/contarReportes')
+    .then(response => response.json())
+    .then(data => {
+    const bol = data;
+    if (bol == 1) {
+        if (booling1 == 0){
+        booling1 = 1; 
+        const reporteLink = document.getElementById('reporteLink');
+        reporteLink.innerHTML += " ⦿";}
+        if (!document.title.startsWith("🔴")) {
+            document.title = "🔴 " + document.title;
+        }
+    }
+    })
+    .catch(error => {
+        console.error('Error al verificar reportes:', error);
+    });
+        }
+
+        setInterval(function() {
+            verificarNuevosReportes();
+            verificarNuevosAnuncios();
+        }, 5000); 
+    async function verificarNuevosAnuncios() {
+    fetch('/contarAnuncios')
+    .then(response => response.json())
+    .then(data => {
+    const bol = data;
+    console.log(bol);
+    if (bol == 1) {
+        if (booling == 0){
+        booling = 1; 
+        const anunciosLink = document.getElementById('anunciosLink');
+        anunciosLink.innerHTML += " ⦿";}
+        if (!document.title.startsWith("🔴")) {
+            document.title = "🔴 " + document.title;
+        }
+    }
+    })
+    .catch(error => {
+        console.error('Error al verificar reportes:', error);
+    });
+        }

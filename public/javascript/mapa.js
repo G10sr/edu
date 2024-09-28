@@ -59,7 +59,7 @@ window.onload = function() {
     verificarNuevosReportes();
     rolesfunc();
 };
-function verificarNuevosReportes() {
+async function verificarNuevosReportes() {
     fetch('/contarReportes')
     .then(response => response.json())
     .then(data => {
@@ -82,7 +82,8 @@ function verificarNuevosReportes() {
         setInterval(function() {
             verificarNuevosReportes();
             verificarNuevosAnuncios();
-        }, 5000); function verificarNuevosAnuncios() {
+        }, 5000); 
+    async function verificarNuevosAnuncios() {
     fetch('/contarAnuncios')
     .then(response => response.json())
     .then(data => {

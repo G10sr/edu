@@ -1,152 +1,171 @@
 let reportIds = [];
 let ids = [];
-//SELECT usuarios.name, usuarios.email, roles.descripcion AS rol FROM usuarios JOIN roles ON usuarios.rol_id = roles.id;
-async function mostrarTexto() {
-    let nomreportes = [];
-    let descripcionreportes = [];
-    let vigenciareportes = [];
-    let usuarionom = [];
-    let tiporeporte = [];
-    let aula = [];
-    
-    await fetch('/api/reportes')
-    .then(response => response.json())  
+
+var booling = 0; 
+var booling1 = 0; 
+
+async function mostrarUsuarios() {
+    booling = 0; 
+    booling1 = 0; 
+    let nombresUsuarios = [];
+    let correosUsuarios = [];
+    let permisosUsuarios = [];
+    let rolesUsuarios = [];
+    let rolIds = [];
+    let ids = [];
+
+    // Petición a la API para obtener los datos de usuarios
+    await fetch('/api/usuarios')
+    .then(response => response.json())
     .then(data => {
-        nomreportes = data.map(item => item.nombre); 
-        descripcionreportes = data.map(item => item.descripcion); 
-        vigenciareportes = data.map(item => item.vigencia); 
-        usuarionom = data.map(item => item.name);
-        tiporeporte = data.map(item => item.tipo_reporte);
-        aula = data.map(item => item.aula);
+        nombresUsuarios = data.map(item => item.name);
+        correosUsuarios = data.map(item => item.email);
+        permisosUsuarios = data.map(item => item.permiso);  // Nuevos datos de permisos
+        rolesUsuarios = data.map(item => item.rol);
+        rolIds = data.map(item => item.rol_id);  // ID de los roles
         ids = data.map(item => item.id);
     })
     .catch(error => {
-        console.error('Error al obtener los reportes:', error);
+        console.error('Error al obtener los usuarios:', error);
     });
 
-    let idReverse = ids.reverse();
-    let nomreportesReverse = nomreportes.reverse();
-    let descreportesReverse = descripcionreportes.reverse();
-    let vigenciareportesReverse = vigenciareportes.reverse();
-    let tiporeporteReverse = tiporeporte.reverse();
-    let aulaReverse = aula.reverse();
-    
     let contenedor = document.getElementById("grid");
-    for (let i = 0; i < nomreportes.length; i++) {
-        let vigenciatotal = 'Resuelto ✔️';
-        let tiporeportetotal = 'Ninguno Especifico';
 
-        if (vigenciareportesReverse[i] === 0) {
-            vigenciatotal = 'Resuelto ✔️';
-        } else if (vigenciareportesReverse[i] === 1) {
-            vigenciatotal = 'En proceso 🔧';
-        } else if (vigenciareportesReverse[i] === 2) {
-            vigenciatotal = 'Pendiente ⌚';
-        }
-
-        if (tiporeporteReverse[i] === 0) {
-            // No hay tipo especificado
-        } else if (tiporeporteReverse[i] === 1) {
-            tiporeportetotal = 'Limpieza';
-        } else if (tiporeporteReverse[i] === 2) {
-            tiporeportetotal = 'TI';
-        } else if (tiporeporteReverse[i] === 3) {
-            tiporeportetotal = 'Estructura';
-        } else if (tiporeporteReverse[i] === 4) {
-            tiporeportetotal = 'Eléctrico';
-        }
-    
-
-        let nombre = document.createTextNode(nomreportesReverse[i]);
-        let descripcion = document.createTextNode(descreportesReverse[i]);
-        let vigencia = document.createTextNode("  -  "+vigenciatotal);
-        let tiporep = document.createTextNode(tiporeportetotal);
-        let aula = document.createTextNode("  -  "+aulaReverse[i]);
-
+    // Bucle para mostrar los usuarios
+    for (let i = 0; i < nombresUsuarios.length; i++) {
+        let nombre = document.createTextNode(nombresUsuarios[i]);
+        let correo = document.createTextNode(correosUsuarios[i]);
+        let permisoTexto = permisosUsuarios[i] === 1 ? "Con permiso" : "Sin permiso"; // Texto de permiso
+        let permiso = document.createTextNode("Permiso: " + permisoTexto); 
+        let rol = document.createTextNode("Rol: " + rolesUsuarios[i]);
 
         let caja = document.createElement("div");
         caja.setAttribute("class", "minigrid");
-        caja.setAttribute("id", `minibox-${idReverse[i]}`);
+        caja.setAttribute("id", `minibox-${ids[i]}`);
 
         let nom = document.createElement("p");
         nom.setAttribute("class", "titulobox");
-        nom.appendChild(nombre.cloneNode(true));
+        nom.appendChild(nombre);
 
-        let desc = document.createElement("p");
-        desc.setAttribute("class", "descbox");
-        desc.appendChild(descripcion.cloneNode(true));
+        let mail = document.createElement("p");
+        mail.setAttribute("class", "descbox");
+        mail.appendChild(correo);
 
-        let vig = document.createElement("p");
-        vig.setAttribute("class", "vig");
-        nom.appendChild(vigencia.cloneNode(true));
+        let permisoP = document.createElement("p");
+        permisoP.setAttribute("class", "permisobox");
+        permisoP.appendChild(permiso);
 
-        let tip = document.createElement("p");
-        tip.setAttribute("class", "tip");
-        nom.appendChild(tiporep.cloneNode(true));
+        let role = document.createElement("p");
+        role.setAttribute("class", "rol");
+        role.appendChild(rol);
 
-        let aul = document.createElement("p");
-        aul.setAttribute("class", "aula");
-        nom.appendChild(aula.cloneNode(true));
-
-        const opcion0 = document.createElement('div');
+        // Crear checkboxes para los roles (0: Sin Rol, 1: Admin, 2: Profesor)
+        const checkboxContainer = document.createElement('div');
 
         for (let l = 0; l <= 2; l++) {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
-            checkbox.className = 'checkbox'; 
-            checkbox.dataset.i = i; 
-            checkbox.dataset.l = l; 
-            checkbox.onclick = (event) => handleCheckboxClick(event, idReverse[i]); // Llama a la función de manejo de checkbox
+            checkbox.className = 'checkbox';
+            checkbox.dataset.i = i;
+            checkbox.dataset.l = l;
+            checkbox.dataset.userid = ids[i]; // Guardar el ID del usuario
+            checkbox.onclick = (event) => handleCheckboxClick(event, ids[i], permisosUsuarios[i]); // Manejar el click en el checkbox
 
             const label = document.createElement('label');
             label.className = 'labelsmanager';
-            label.htmlFor = checkbox.id; 
-            label.textContent = l === 0 ? 'Hecho' : (l === 1 ? 'En proceso' : 'Pendiente');
+            label.htmlFor = checkbox.id;
+            label.textContent = l === 0 ? 'None' : (l === 1 ? 'Admin' : 'Profesor');
 
-            // Pre-check the correct checkbox based on vigencia
-            checkbox.checked = vigenciareportesReverse[i] === l;
+            checkbox.checked = (rolIds[i] === 0 && l === 0) ||
+                               (rolIds[i] === 1 && l === 1) ||
+                               (rolIds[i] === 2 && l === 2);
 
-            opcion0.appendChild(checkbox);
-            opcion0.appendChild(label);
-            opcion0.appendChild(document.createElement('br'));
+            checkboxContainer.appendChild(checkbox);
+            checkboxContainer.appendChild(label);
+            checkboxContainer.appendChild(document.createElement('br'));
+            checkboxContainer.className="chex"
         }
 
+        // Checkbox para el permiso
+        const permisoCheckbox = document.createElement('input');
+        permisoCheckbox.type = 'checkbox';
+        permisoCheckbox.className = 'permiso-checkbox';
+        permisoCheckbox.checked = permisosUsuarios[i] === 1;
+        permisoCheckbox.dataset.userid = ids[i];
+        permisoCheckbox.onclick = (event) => handlePermisoCheckboxClick(event, ids[i]);
+
+        const permisoLabel = document.createElement('label');
+        permisoLabel.textContent = "Permiso";
+        permisoLabel.className="Nox";
+        permisoLabel.appendChild(permisoCheckbox);
+        permisoP.appendChild(document.createElement('br'));
+        permisoP.appendChild(permisoLabel);
+        permisoP.className="peng";
+
+
+        nom.appendChild(mail);
         caja.appendChild(nom);
-        caja.appendChild(desc);
-        desc.append(opcion0);
-        caja.appendChild(tip);
+        caja.appendChild(permisoP);
+        
+        
+        caja.appendChild(checkboxContainer); 
+        
+        
         contenedor.appendChild(caja);
     }
 }
 
-function handleCheckboxClick(event, reportId) {
-    const checkbox = event.target; // Obtener el checkbox que fue clicado
-    const newVigencia = parseInt(checkbox.dataset.l); // Obtener la nueva vigencia desde el dataset del checkbox
+function handleCheckboxClick(event, userId, currentPermiso) {
+    const checkbox = event.target;
+    const newRol = parseInt(checkbox.dataset.l); // Obtener el nuevo rol desde el dataset
 
-    // Uncheck all other checkboxes in the same group
     const sameIGroupCheckboxes = document.querySelectorAll(`.checkbox[data-i="${checkbox.dataset.i}"]`);
     sameIGroupCheckboxes.forEach((cb) => {
         if (cb !== checkbox) {
             cb.checked = false;
         }
     });
-
-    // Realizar la solicitud para actualizar el reporte
-    fetch('/api/update-report', {
+    console.log(userId + ''+newRol+ ''+currentPermiso )
+    // Realizar la solicitud para actualizar el rol y el permiso del usuario
+    fetch('/api/update-user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ reportId: reportId, newVigencia: newVigencia }) // Enviar el ID y nueva vigencia
+        body: JSON.stringify({ userId, newRol, currentPermiso }) // Enviar el ID del usuario y el nuevo rol
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Report updated successfully:', data);
+        console.log('User role updated successfully:', data);
     })
     .catch(error => {
-        console.error('Error updating report:', error);
+        console.error('Error updating user role:', error);
     });
 }
+
+function handlePermisoCheckboxClick(event, userId) {
+    const checkbox = event.target;
+    const newPermiso = checkbox.checked ? 1 : 0; // Si el checkbox está marcado, el permiso es 1, de lo contrario, es 0
+
+    // Realizar la solicitud para actualizar el permiso del usuario
+    fetch('/api/update-user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) // Enviar el ID del usuario y el nuevo permiso
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('User permiso updated successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error updating user permiso:', error);
+    });
+}
+
+
+
 function refresh() {
     var contenedor = document.getElementById("grid");
     var refreshButton = document.getElementById("refresh");
@@ -157,7 +176,7 @@ function refresh() {
     }, 10);
 
     contenedor.innerHTML = '';
-    setTimeout(mostrarTexto, 300);
+    setTimeout(mostrarUsuarios, 300);
 }
 
 async function rolesfunc() {
@@ -213,8 +232,54 @@ async function postverificacion() {
     });
 }
 window.onload = function() {
-    mostrarTexto();
+    mostrarUsuarios()
     postverificacion();
     rolesfunc();
-   
+    verificarNuevosReportes();
+    verificarNuevosAnuncios();
 };
+
+async function verificarNuevosReportes() {
+    fetch('/contarReportes')
+    .then(response => response.json())
+    .then(data => {
+    const bol = data;
+    if (bol == 1) {
+        if (booling1 == 0){
+        booling1 = 1; 
+        const reporteLink = document.getElementById('reporteLink');
+        reporteLink.innerHTML += " ⦿";}
+        if (!document.title.startsWith("🔴")) {
+            document.title = "🔴 " + document.title;
+        }
+    }
+    })
+    .catch(error => {
+        console.error('Error al verificar reportes:', error);
+    });
+        }
+
+        setInterval(function() {
+            verificarNuevosReportes();
+            verificarNuevosAnuncios();
+        }, 5000); 
+    async function verificarNuevosAnuncios() {
+    fetch('/contarAnuncios')
+    .then(response => response.json())
+    .then(data => {
+    const bol = data;
+    console.log(bol);
+    if (bol == 1) {
+        if (booling == 0){
+        booling = 1; 
+        const anunciosLink = document.getElementById('anunciosLink');
+        anunciosLink.innerHTML += " ⦿";}
+        if (!document.title.startsWith("🔴")) {
+            document.title = "🔴 " + document.title;
+        }
+    }
+    })
+    .catch(error => {
+        console.error('Error al verificar reportes:', error);
+    });
+        }

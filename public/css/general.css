@@ -163,10 +163,16 @@ select {
     -ms-user-select:none;
     user-select:none;
 }
-.checkbox{
-    position: absolute;
-    margin-top: 1rem;
+.minigrid {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
+
+
 .labelsmanager{
     position: absolute;
     margin: 2vh;

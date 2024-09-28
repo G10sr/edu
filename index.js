@@ -334,3 +334,43 @@ app.get('/contarAnuncios', (req, res, next) => {
         }
     });
 });
+//Manager anuncios 
+app.get('/api/usuarios', (req, res) => {
+    const queryUsuarios = `
+        SELECT 
+            usuarios.name, 
+            usuarios.email, 
+            usuarios.permiso, 
+            usuarios.rol_id, 
+            roles.descripcion AS rol
+        FROM 
+            usuarios
+        JOIN 
+            roles ON usuarios.rol_id = roles.id;
+    `;
+
+    connection.query(queryUsuarios, (error, results) => {
+        if (error) {
+            console.error('Error al obtener los usuarios:', error);
+            return res.status(500).json({ error: 'Error al obtener los usuarios' });
+        }
+        res.json(results); // Devolver los resultados al frontend
+    });
+});
+
+// Endpoint para actualizar el rol del usuario
+
+app.post('/api/update-user', (req, res) => {
+    const { userId, newRol, newPermiso } = req.body;
+
+    const query = 'UPDATE usuarios SET rol_id = ?, permiso = ? WHERE id = ?';
+
+    connection.query(query, [newRol, newPermiso, userId], (error, results) => {
+        if (error) {
+            console.error('Error al actualizar el usuario:', error);
+            return res.status(500).json({ error: 'Error al actualizar el usuario' });
+        }
+
+        res.json({ success: true, message: 'Usuario actualizado correctamente' });
+    });
+});
