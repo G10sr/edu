@@ -61,6 +61,9 @@ app.get('/manager.html', async (req, res) => {
 app.get('/manager2.html', async (req, res) => {
   res.send(await readFile('./public/html/manageranuncios.html', 'utf-8'));
 });
+app.get('/manager3.html', async (req, res) => {
+    res.send(await readFile('./public/html/managerusuario.html', 'utf-8'));
+  });
 
 app.get('/about.html', async (req, res) => {
   res.send(await readFile('./public/html/about.html', 'utf-8'));

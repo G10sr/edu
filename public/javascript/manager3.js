@@ -1,18 +1,22 @@
 let reportIds = [];
 let ids = [];
-
+//SELECT usuarios.name, usuarios.email, roles.descripcion AS rol FROM usuarios JOIN roles ON usuarios.rol_id = roles.id;
 async function mostrarTexto() {
     let nomreportes = [];
     let descripcionreportes = [];
     let vigenciareportes = [];
+    let usuarionom = [];
+    let tiporeporte = [];
     let aula = [];
     
-    await fetch('/api/anuncios')
+    await fetch('/api/reportes')
     .then(response => response.json())  
     .then(data => {
         nomreportes = data.map(item => item.nombre); 
         descripcionreportes = data.map(item => item.descripcion); 
         vigenciareportes = data.map(item => item.vigencia); 
+        usuarionom = data.map(item => item.name);
+        tiporeporte = data.map(item => item.tipo_reporte);
         aula = data.map(item => item.aula);
         ids = data.map(item => item.id);
     })
@@ -24,6 +28,7 @@ async function mostrarTexto() {
     let nomreportesReverse = nomreportes.reverse();
     let descreportesReverse = descripcionreportes.reverse();
     let vigenciareportesReverse = vigenciareportes.reverse();
+    let tiporeporteReverse = tiporeporte.reverse();
     let aulaReverse = aula.reverse();
     
     let contenedor = document.getElementById("grid");
@@ -39,6 +44,17 @@ async function mostrarTexto() {
             vigenciatotal = 'Pendiente ⌚';
         }
 
+        if (tiporeporteReverse[i] === 0) {
+            // No hay tipo especificado
+        } else if (tiporeporteReverse[i] === 1) {
+            tiporeportetotal = 'Limpieza';
+        } else if (tiporeporteReverse[i] === 2) {
+            tiporeportetotal = 'TI';
+        } else if (tiporeporteReverse[i] === 3) {
+            tiporeportetotal = 'Estructura';
+        } else if (tiporeporteReverse[i] === 4) {
+            tiporeportetotal = 'Eléctrico';
+        }
     
 
         let nombre = document.createTextNode(nomreportesReverse[i]);
@@ -64,6 +80,9 @@ async function mostrarTexto() {
         vig.setAttribute("class", "vig");
         nom.appendChild(vigencia.cloneNode(true));
 
+        let tip = document.createElement("p");
+        tip.setAttribute("class", "tip");
+        nom.appendChild(tiporep.cloneNode(true));
 
         let aul = document.createElement("p");
         aul.setAttribute("class", "aula");
@@ -95,6 +114,7 @@ async function mostrarTexto() {
         caja.appendChild(nom);
         caja.appendChild(desc);
         desc.append(opcion0);
+        caja.appendChild(tip);
         contenedor.appendChild(caja);
     }
 }
@@ -112,7 +132,7 @@ function handleCheckboxClick(event, reportId) {
     });
 
     // Realizar la solicitud para actualizar el reporte
-    fetch('/api/update-anuncios', {
+    fetch('/api/update-report', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -146,7 +166,6 @@ async function rolesfunc() {
     .then(data => {
         let rol = data; 
         if (rol.rolId[0]==1){
-
             var hiper = document.getElementById("hipervinculos");
             let newListItem = document.createElement('li');
 

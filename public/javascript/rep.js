@@ -232,6 +232,7 @@ async function rolesfunc() {
                 <a href="manager.html" class="opciones">
                     <i class="fa-solid fa-clipboard-list"></i> ManagerRep
                 </a>`;
+
             let newListItem2 = document.createElement('li');
 
             newListItem2.innerHTML = `
@@ -239,8 +240,15 @@ async function rolesfunc() {
                     <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
                 </a>`;
 
+                let newListItem3 = document.createElement('li');
+
+                newListItem3.innerHTML = `
+                    <a href="manager3.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
+                    </a>`;
             hiper.appendChild(newListItem);
             hiper.appendChild(newListItem2);
+            hiper.appendChild(newListItem3);
         } else {
         }
     })

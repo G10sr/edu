@@ -189,9 +189,15 @@ async function rolesfunc() {
                 <a href="manager2.html" class="opciones">
                     <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
                 </a>`;
+                let newListItem3 = document.createElement('li');
 
+                newListItem3.innerHTML = `
+                    <a href="manager3.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
+                    </a>`;
             hiper.appendChild(newListItem);
             hiper.appendChild(newListItem2);
+            hiper.appendChild(newListItem3);
         } else {
         }
     })

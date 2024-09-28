@@ -174,12 +174,14 @@ select {
 }
 .titulobox{
     position: relative;
-    font-size: 3dvh;
+    font-size: 2.6dvh;
     font-family: "Nunito", sans-serif;
     margin-left: 3vh;
     margin-right: 1vh;
     margin-top: 4vh;
     font-weight: 600;
+    z-index: 4;
+
 }
 .displayuser{
     position: absolute;
