@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>EduReports - Reportes</title>
+        <meta name="robots" content="index, follow">
+        <meta name="theme-color" content="#09f">
+        <link rel="icon" type="image/jpg" href="/imagenes/icon.png">
+        <link rel="stylesheet" href="../css/general.css">
+        <meta name="description" content="EduReports es una herramienta de reporte de averias o problemas dentro del CTP CIT">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    </head>
+    <style>
+        #issuebox{
+            display: none;
+        }
+    </style>
+    <body>
+        
+        <input type="checkbox" id="menu"><img class="menuimg" src="/imagenes/menu.png" >
+        <p class="status"><i class="fa-regular fa-flag"></i> Reporte</p>
+        <div class="rp-box"></div>
+        <div id="caja">
+            <nav id="hipervinculos">
+                <li><a href="reportes.html" id="reporteLink" class="opciones"><i class="fa-regular fa-flag"></i> 
+                    Reporte</a></li>
+                <li><a href="anuncios.html" id="anunciosLink" class="opciones"><i class="fa-solid fa-bullhorn"></i> 
+                    Anuncios</a></li>
+                <li><a href="mapa.html" id="mapaLink" class="opciones"><i class="fa-regular fa-map"></i>
+                    Mapa</a></li>
+            </nav>
+        <img id="titulo" src="/imagenes/logo1.png">
+        </div>
+        <div id="issuebox" >
+            <button id="close-btn" aria-label="Cerrar" onclick="issueBox()">✖</button>
+            <a id="texto">Reporte</a>
+            <input type="text" class="textinput" id="reptitulo" placeholder="Título del Reporte" maxlength="60" autocomplete="off">
+            <textarea class="textinput2" id="reporte" placeholder="Ingrese aquí los Detalles" maxlength="250" autocomplete="off"></textarea>
+            <select id="lugar" class="selector" name="Lugar" autocomplete="off">
+                <option value="100" hidden selected>Seleccione el lugar</option>
+                <option value="100">Ninguno (Especificar)</option>
+                <option value="1">Aula 1</option>
+                <option value="2">Aula 2</option>
+                <option value="3">Aula 3</option>
+                <option value="4">Aula 4</option>
+                <option value="100">otro</option>
+            </select>
+            <select id="problema" class="selector"name="Problema" autocomplete="off">
+                <option value="0" hidden selected>Tipo de Problema</option>
+                <option value="0">Ninguno Especificado (Especificar)</option>
+                <option value="1">Limpieza</option>
+                <option value="2">TI</option>
+                <option value="3">Infraestructura</option>
+                <option value="4">Eléctrico</option>
+            </select>
+            <div>
+                <input type="checkbox" class="urgente" id="repurgente">
+                <a id="texto">Urgente</a>
+            </div>
+            <button id="submit" onclick="createReport()">Subir</button>
+        </div>
+        
+        <button class = "circle" onclick="showBox()">
+            <i class="fa-solid fa-plus" id="buttonimg"></i>
+        </button>
+        <div class="grid" id="grid">
+        </div>
+
+        <p  id="refreshtext"><i class="fa-solid fa-arrows-rotate" id="refresh" onclick="refresh()"></i>Refrescar</p>
+        
+        <script src="/javascript/rep.js"></script>   
+     </body>
+</html>

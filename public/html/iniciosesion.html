@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">    
+    <title>EduReports - Inicio de Sesion</title>
+    <link rel="stylesheet" href="../css/iniciosesion.css">
+    <link rel="icon" type="image/jpg" href="/imagenes/icon.png">
+</head>
+<body>
+    <img src="/imagenes/icon.png" class="fondo" alt="">
+    <div class="formulario">
+        <h1>Inicio de sesion</h1>
+        <form method="post" class="form" >
+            <div class="usuario">
+                <input type="text" required id="usuario">
+                <span></span>
+                <label>Correo</label>
+            </div>
+            <div class="usuario">
+                <input type="password" required id="pasword">
+                <span></span>
+                <label>Contraseña</label>
+            </div>
+            <input type="submit" id="buton1" value="Iniciar Sesion">
+        </form>
+    </div>
+    <label class="sublink" onclick="window.location.href='registro.html'">Haz click aqui para Registrar</label>
+
+    <label class="infoIT">
+        Si necesita ayuda iniciando sesión, contacte a IT
+    </label>
+    <script src="../javascript/client.js"></script>   
+</body>
+</html>

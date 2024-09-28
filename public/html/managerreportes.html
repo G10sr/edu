@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>EduReports - Manejar Reportes</title>
+        <meta name="robots" content="index, follow">
+        <meta name="theme-color" content="#09f">
+        <link rel="icon" type="image/jpg" href="/imagenes/icon.png">
+        <link rel="stylesheet" href="../css/general.css">
+        <meta name="description" content="EduReports es una herramienta de reporte de averias o problemas dentro del CTP CIT">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    </head>
+    <style>
+        #issuebox{
+            display: none;
+        }
+    </style>
+    <body>
+        
+        <input type="checkbox" id="menu"><img class="menuimg" src="/imagenes/menu.png" >
+        <p class="status"><i class="fa-solid fa-clipboard-list"></i> Manager</p>
+        <div class="rp-box"></div>
+        <div id="caja">
+        <nav id="hipervinculos">
+            <li></i><a href="reportes.html" class="opciones"><i class="fa-regular fa-flag"></i> 
+                Reporte</a></li>
+            <li><a href="anuncios.html" class="opciones"><i class="fa-solid fa-bullhorn"></i> 
+                Anuncios</a></li>
+            <li><a href="mapa.html" class="opciones"><i class="fa-regular fa-map"></i>
+                Mapa</a></li>
+        </nav>
+        <img id="titulo" src="/imagenes/logo1.png">
+        </div>
+      
+        <div class="grid" id="grid"></div>
+        </div>
+
+        <p  id="refreshtext"><i class="fa-solid fa-arrows-rotate" id="refresh" onclick="refresh()"></i>Refrescar</p>
+        
+        <script src="/javascript/manager.js"></script>   
+     </body>
+</html>

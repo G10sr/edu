@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>EduReports - Registro</title>
+    <link rel="stylesheet" href="../css/iniciosesion.css">
+    <link rel="icon" type="image/jpg" href="/imagenes/icon.png">
+</head>
+<body>
+    <img src="/imagenes/icon.png" class="fondo" alt="Fondo">
+    <div class="formulario">
+        <h1>Registro</h1>
+        <form method="post" class="form">
+            <div class="usuario">
+                <input type="text" required id="nombre" autocomplete="name">
+                <span></span>
+                <label for="nombre">Nombre y Apellido</label>
+            </div>
+            <div class="usuario">
+                <input type="text" required id="usuario" autocomplete="email">
+                <span></span>
+                <label for="usuario">Correo</label>
+            </div>
+            <div class="usuario">
+                <input type="password" required id="password" autocomplete="new-password">
+                <span></span>
+                <label for="password">Primera Contraseña</label>
+            </div>
+            <div class="usuario">
+                <input type="password" required id="password2" autocomplete="off">
+                <span></span>
+                <label for="password2">Repetir Contraseña</label>
+            </div>
+            <input type="submit" id="buton1" value="Registrar">
+        </form>
+    </div>
+    <p class="sublink" onclick="window.location.href='iniciosesion.html'"> Haz click aqui para Iniciar Sesion </p>
+
+    <label class="infoIT">
+        Si necesita ayuda iniciando sesión, contacte a IT
+    </label>
+
+    <script src="../javascript/registro.js"></script>   
+</body>
+</html>

@@ -1,0 +1,585 @@
+body{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
+}
+#texto{
+    font-family: "Nunito", sans-serif;
+}
+
+#issuebox {
+    background-color: #30ac8d; 
+    position: fixed;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 90%;
+    max-width: 600px;
+    height: auto; 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    overflow: hidden; 
+    z-index: 9;
+    transition: 300ms;
+    
+}
+#refresh{
+    scale: 1.2;
+    cursor: pointer;
+    transition: 500ms ease;
+}
+#refreshtext{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 3%;
+    right:20%;
+    gap: 10px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+#refresh:hover{
+    color: #6a6a6a;
+}
+
+.refresh_animation{
+    animation: rotate 300ms;
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.urgente{
+    height: 3vh;
+    width: 3vh;
+    border-radius: 10px;
+}
+.urgente:checked{
+    accent-color: #2a5cc1;
+}
+#close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: white;
+    cursor: pointer;
+}
+
+#issuebox a {
+    font-size: 1.2em;
+    color: white;
+    margin-bottom: 10px; 
+}
+
+.textinput, .textinput2 {
+    width: 96.7%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.textinput2 {
+    height: 100px; 
+    resize: none; 
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: white;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.urgente {
+    margin-right: 5px; 
+
+}
+
+#submit {
+    background-color: #ffffff; 
+    color: #5dc1b9;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.5s ease; 
+}
+#submit:hover {
+    background-color: #ffffff; 
+    color: #5dc1b9;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease; 
+    scale: 1.2;
+}
+
+#submit:hover {
+    background-color: #f0f0f0; 
+}
+
+
+#issuebox div {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 10px; 
+}
+
+.boxgrid{
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.minigrid{
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.checkbox{
+    position: absolute;
+    margin-top: 1rem;
+}
+.labelsmanager{
+    position: absolute;
+    margin: 2vh;
+    transform: translateX(10%);
+}
+.titulobox{
+    position: relative;
+    font-size: 3dvh;
+    font-family: "Nunito", sans-serif;
+    margin-left: 3vh;
+    margin-right: 1vh;
+    margin-top: 4vh;
+    font-weight: 600;
+}
+.displayuser{
+    position: absolute;
+    font-size: 1.6dvh;
+    font-family: "Nunito", sans-serif;
+    font-weight: 300;
+    top: 5px; 
+    right: 10px; 
+}
+.descbox {
+    position: relative;
+    font-size: 2.2dvh;
+    font-family: "Nunito", sans-serif;
+    margin-left: 3vh;
+    margin-right: 1vh;
+    font-weight: 400;
+}
+
+.urgbox1{
+    width: 6vh;
+    height: 6vh; 
+    background-color: rgb(235, 93, 93); 
+    border-radius: 50%; 
+    position: absolute;
+    bottom: 10px; 
+    right: 10px; 
+}
+.urgbox0{
+    width: 6vh;
+    height: 6vh; 
+    background-color: rgb(185, 181, 181); 
+    border-radius: 50%; 
+    position: absolute;
+    bottom: 10px; 
+    right: 10px;  
+}
+.vig{
+    position: absolute;
+    bottom: 10px; 
+    left: 16px;  
+    text-transform: uppercase;
+    text-decoration:wavy;
+    font-size: 1.9dvh;
+    font-family: "Nunito", sans-serif;
+    font-weight: 1000;
+}
+.tip{
+    position: absolute;
+    top: 5px; 
+    left: 16px;  
+    text-transform: uppercase;
+    font-size: 1.2dvh;
+    font-family: "Nunito", sans-serif;
+    color: #6a6a6a;
+}
+.aula{
+    position: absolute;
+    bottom: 10px; 
+    left: 140px;  
+    text-transform: uppercase;
+    text-decoration:wavy;
+    font-size: 1.9dvh;
+    font-family: "Nunito", sans-serif;
+    font-weight: 1000;
+}
+@media(min-width:930px) {
+    .rp-box{
+        visibility: hidden;
+        position: absolute;
+        z-index: 1;
+    }
+    #titulo{
+        position: fixed;
+        left: 2vh;
+        bottom: 1vh;
+        height: 8vh;
+        filter: brightness(100);
+    }
+    #menu{
+        visibility: hidden;
+        position: absolute;
+    }
+    .menuimg{
+        visibility: hidden;
+        position: absolute;
+    }
+    #caja{
+        position: fixed;
+        height: 100%;
+        width: 20%;
+        background: #30ac8dee;
+        overflow: hidden;
+    
+    }
+    #hipervinculos{
+        display: flex;
+        flex-direction: column;
+        margin-left: 10%;
+        margin-top: 6vh;
+        gap: 6vh;
+        list-style-type: none;
+    }
+    .opciones{
+        color: rgb(255, 255, 255);
+        font-family: "Nunito", sans-serif;
+        font-size: 4dvh;
+        width: fit-content;
+        transition-duration: 50ms;
+
+    }
+    .opciones:hover{
+        font-weight: 700;
+        cursor:pointer;
+    }
+    .status{
+        position: absolute;
+        margin-left: 22%;
+        top: 1%;
+        font-size: 3dvh;
+        font-weight: 60;
+        font-family: "Nunito", sans-serif;
+    }
+    a{
+        text-decoration: none;
+        
+    }
+    body{
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    .circle {
+        background: #30ac8dee;
+        width: 12vh;
+        height: 12vh;
+        border-radius: 50%;
+        border: black;
+        right: 3vh;
+        bottom: 3vh;
+        position: fixed;
+        transition: 50ms;
+        z-index: 11;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    #buttonimg{
+        scale: 3;
+        color: rgb(255, 255, 255);
+        z-index: 3;
+    }
+    .circle:hover{
+        background: rgb(87, 209, 172);
+        scale: 1.1;
+        cursor:pointer;
+    }
+    .grid{
+        display: grid;
+        position: absolute;
+        background-color: blueviolet hidden;
+        margin-top: 6%;
+        margin-left: 22%;
+        height: auto;
+        width: 65%;
+        min-width: 40vh;
+        grid-template-columns: 1;
+        grid-template-rows: repeat(auto, 1fr);
+    }
+    .boxgrid{
+        background-color: rgb(255, 255, 255);
+        width: 100%;
+        min-height: 30vh;
+        height: auto;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        z-index: 1;
+        border-radius: 0.5cm;
+        transition: 90ms;
+        box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.589);
+    }
+    .boxgrid:hover{
+        scale: 1.07;
+        transition: 90ms;
+        transform: translateX(20px);
+        z-index: 3;
+        border: 1px solid rgba(0, 0, 0, 0.247);
+        box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.363);
+    }
+    .mapa{
+        height: auto;
+        width: 50%;
+        margin-left: 22%;
+        margin-top: 3%;
+
+    }
+    body::-webkit-scrollbar {
+        width: 10px;               /* width of the entire scrollbar */
+      }
+      
+      body::-webkit-scrollbar-track {
+        background: rgba(104, 82, 228, 0.205);        /* color of the tracking area */
+      }
+      
+      body::-webkit-scrollbar-thumb {
+        background-color: #30ac8dee;    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+        border: 3px solid #30ac8dee;  /* creates padding around scroll thumb */
+      }
+}
+@media(max-width:930px) {
+    #texto{
+        font-size: medium;
+    }
+    .rp-box{
+        display: block;
+        position: fixed;
+        z-index: 4;
+        background: #30ac8dee;
+        height: 70px;
+        width: 49%;
+        border-bottom-right-radius: 40px;
+        transition: 500ms;
+        top: 0%; 
+    }
+    #menu{
+        margin-top: 2vh;
+        margin-left: 1vh;
+        z-index: 6;
+        position: fixed;
+        opacity: 0;
+        height: 40px;
+        width: 40px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        
+    }
+    .menuimg{
+        margin-top: 2vh;
+        margin-left: 1vh;
+        position: fixed;
+        visibility: visible;
+        z-index: 5;
+        height: 30px;
+        width: 30px;
+        filter: invert();
+    }
+    #titulo{
+        position: absolute;
+        left: 1vh;
+        bottom: 1vh;
+        height: 8%;
+        filter: brightness(100);
+    }
+    #caja{
+        margin-top: 0%;
+        z-index: 3;
+        position: fixed;
+        height: 100%;
+        width: 50%;
+        left: -50%;
+        background: #30ac8dee;
+        overflow: hidden;
+        transition: all 700ms ease;
+    }
+    #menu:checked ~ #caja {
+        left: 0; /* Mostrar el menú al activar el checkbox */
+    }
+    #menu:checked ~ .status {
+        top: -20vh;
+    }
+    #menu:checked ~ .rp-box{
+        top: -20vh;
+    }
+    #menu:checked ~ #issuebox{
+        opacity: 0%;
+        transition: 300ms;
+        visibility: hidden;
+    }
+    #menu:hover{
+        cursor: pointer;
+        scale: 1.02;
+    }
+    #hipervinculos{
+        display: flex;
+        flex-direction: column;
+        margin-left: 10%;
+        margin-top: 12vh;
+        gap: 6vh;
+        list-style-type: none;
+    }
+    .opciones{
+        color: rgb(255, 255, 255);
+        font-family: "Nunito", sans-serif;        
+        font-size: 4dvh;
+        width: fit-content;
+        transition-duration: 50ms;
+
+    }
+    .opciones:hover{
+        font-weight: 700;
+        cursor:pointer;
+    }
+    .status{
+        position: fixed;
+        margin-left: 16%;
+        top: 0.3%;
+        font-size: 2dvh;
+        font-family: "Nunito", sans-serif;        
+        transition: all 700ms ease;
+        z-index: 5;
+        color: white;
+    }
+    a{
+        text-decoration: none;
+        
+    }
+    body{
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    .circle {
+        background: #30ac8d;
+        width: 12vh;
+        height: 12vh;
+        border-radius: 50%;
+        border: black;
+        right: 3vh;
+        bottom: 3vh;
+        position: fixed;
+        transition: 50ms;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    #buttonimg{
+        scale: 3;
+        color: aliceblue;
+        z-index: 3;
+    }
+    .circle:hover{
+        background: rgb(12, 219, 157);
+        scale: 1.1;
+        cursor:pointer;
+    }
+    .grid{
+        z-index: 1;
+        display: grid;
+        position: absolute;
+        background-color: blueviolet hidden;
+        margin-top: 17%;
+        margin-left: 3%;
+        height: auto;
+        width: 90%;
+        min-width: 40vh;
+        grid-template-columns: 1;
+        grid-template-rows: repeat(auto, 1fr);
+    }
+    .boxgrid{
+        background-color: rgb(255, 255, 255);
+        width: 100%;
+        min-height: 30vh;
+        height: auto;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        z-index: 1;
+        border-radius: 0.5cm;
+        transition: 90ms;
+        box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.589);
+    }
+    .boxgrid:hover{
+        scale: 1.02;
+        transition: 90ms;
+        transform: translateX(10px);
+        z-index: 2;
+        border: 1px solid rgba(0, 0, 0, 0.247);
+        box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.363);
+    }
+    .mapa{
+        width: 100%;
+        height: 100%;
+        margin-left: 22%;
+        margin-top: 3%;
+
+    }
+    body::-webkit-scrollbar {
+        width: 10px;               /* width of the entire scrollbar */
+      }
+      
+      body::-webkit-scrollbar-track {
+        background: rgba(104, 82, 228, 0.205);        /* color of the tracking area */
+      }
+      
+      body::-webkit-scrollbar-thumb {
+        background-color: #5dc1b9;    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+        border: 3px solid #5dc1b9;  /* creates padding around scroll thumb */
+      }
+ }
+ 
+
