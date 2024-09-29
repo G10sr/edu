@@ -397,3 +397,16 @@ app.get('/api/mapa', (req,res) => {
     res.json(resultsrep);
     });
  }); 
+
+ //selectores
+
+ app.get('/api/selector', (req, res, next) => {
+    const queryrep = 'SELECT id, aula FROM lugar;';  // Consulta sólo los campos necesarios
+    
+    connection.query(queryrep, (error, resultsrep) => {
+        if (error) {
+            return next(error);
+        }
+        res.json(resultsrep);  // Enviar los resultados como JSON al cliente
+    });
+});

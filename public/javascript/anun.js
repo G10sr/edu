@@ -250,6 +250,7 @@ window.onload = function() {
     mostrarTexto();
     rolesfunc();
     verificarNuevosReportes();
+    selec();
     var issueBox = document.getElementById("issuebox");
     issueBox.style.display = 'none';
 };
@@ -292,4 +293,18 @@ function verificarNuevosReportes() {
     .catch(error => {
         console.error('Error:', error);
     });
+}
+function selec(){
+    fetch('/api/selector')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('lugar');
+            data.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id; 
+                option.textContent = item.aula; 
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error al obtener los datos:', error));
 }

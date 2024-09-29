@@ -155,7 +155,6 @@ async function verificarNuevosReportes() {
             console.error('Error al obtener los reportes:', error);
         });
     
-        // Agregar un icono para cada posición
         for (let i = 0; i < posicion.length; i++) {
             let imagen = document.createElementNS("http://www.w3.org/2000/svg", "image");
             imagen.setAttribute("href", "../imagenes/icon.png");

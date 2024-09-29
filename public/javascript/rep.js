@@ -321,6 +321,7 @@ function verificarNuevosAnuncios() {
  setInterval(verificarNuevosAnuncios, 5000);
 window.onload = function() {
     postverificacion();
+    selec();
     verificarNuevosAnuncios();
     mostrarTexto();
     rolesfunc();
@@ -341,4 +342,19 @@ function logout() {
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+function selec(){
+    fetch('/api/selector')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('lugar');
+            data.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id; 
+                option.textContent = item.aula; 
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error al obtener los datos:', error));
 }
