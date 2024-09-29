@@ -145,22 +145,26 @@ async function verificarNuevosReportes() {
         const svg = document.getElementById('ey40nT29W7O1');
         
         let posicion = [];
+        let vigencia = [];
     
         await fetch('/api/mapa')
         .then(response => response.json())  
         .then(data => {
             posicion = data.map(item => item.posicion); 
+            vigencia = data.map(item => item.vigencia)
         })
         .catch(error => {
             console.error('Error al obtener los reportes:', error);
         });
-    
+       
         for (let i = 0; i < posicion.length; i++) {
             let imagen = document.createElementNS("http://www.w3.org/2000/svg", "image");
             imagen.setAttribute("href", "../imagenes/icon.png");
             imagen.setAttribute("width", "20"); // ancho
             imagen.setAttribute("height", "20"); // alto
-    
+            imagen.style.boxShadow = "0 0 20px 5px rgba(255, 255, 0, 0.7)";
+
+            if (vigencia[i] != 0){
             // Manejar las posiciones
             if (posicion[i] == 1) {
                 imagen.setAttribute("x", "350");  // Bloque 1
@@ -211,7 +215,7 @@ async function verificarNuevosReportes() {
                 imagen.setAttribute("x", "440");  // Cancha Interna
                 imagen.setAttribute("y", "450");  // Cancha Interna
             }
-    
+        }
             // Añadir la imagen al SVG
             svg.appendChild(imagen);
         }
@@ -221,3 +225,36 @@ async function verificarNuevosReportes() {
         
     
         
+    const imageContainer = document.getElementById('map');
+    let isDragging = false;
+    let startX, startY, scrollLeft, scrollTop;
+    
+    imageContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - imageContainer.offsetLeft;
+        startY = e.pageY - imageContainer.offsetTop;
+        scrollLeft = imageContainer.scrollLeft;
+        scrollTop = imageContainer.scrollTop;
+        imageContainer.style.cursor = 'grabbing'; // Cambia el cursor cuando estás arrastrando
+    });
+    
+    imageContainer.addEventListener('mouseleave', () => {
+        isDragging = false;
+        imageContainer.style.cursor = 'grab';
+    });
+    
+    imageContainer.addEventListener('mouseup', () => {
+        isDragging = false;
+        imageContainer.style.cursor = 'grab';
+    });
+    
+    imageContainer.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault(); // Evita comportamientos indeseados
+        const x = e.pageX - imageContainer.offsetLeft;
+        const y = e.pageY - imageContainer.offsetTop;
+        const walkX = (x - startX); // Cantidad de píxeles a desplazar horizontalmente
+        const walkY = (y - startY); // Cantidad de píxeles a desplazar verticalmente
+        imageContainer.scrollLeft = scrollLeft - walkX;
+        imageContainer.scrollTop = scrollTop - walkY;
+    });
