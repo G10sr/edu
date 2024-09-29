@@ -287,4 +287,6 @@ async function verificarNuevosReportes() {
             .catch(error => {
                 console.error('Error:', error);
             });
-        }
+        } 
+
+

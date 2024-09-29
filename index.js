@@ -384,3 +384,16 @@ app.post('/api/logout', (req, res) => {
         res.status(200).send('Sesión cerrada');
     });
 });
+
+//MAPA 
+app.get('/api/mapa', (req,res) => {
+    const queryrep = 'SELECT reportes.*, lugar.*FROM reportes JOIN lugar ON reportes.lugar = lugar.id;';
+ 
+    connection.query(queryrep, (error, resultsrep) => {
+       if (error) {
+          return next(error);
+ 
+       }      
+    res.json(resultsrep);
+    });
+ }); 
