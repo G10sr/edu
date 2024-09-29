@@ -158,7 +158,7 @@ app.get('/api/anuncios', (req,res) => {
          return next(error);
          
       }      
-    session.numeroids = resultsan[0].total;
+    req.session.numeroids = resultsan[0].total;
    res.json(resultsan);
    
    });
@@ -216,7 +216,7 @@ app.get('/api/reportes', (req,res) => {
 
       }      
    res.json(resultsrep);
-    session.numberofids = resultsrep[0].total;
+    req.session.numberofids = resultsrep[0].total;
    });
 }); 
 var rolId = 0;
@@ -304,7 +304,7 @@ app.get('/contarReportes', (req, res, next) => {
             return next(error);
         }
         var cantidadActualReportes = resultsrep[0].total;
-        if (cantidadActualReportes > session.numberofids){
+        if (cantidadActualReportes > req.session.numberofids){
             bol = 1;
             res.json(bol);
         }
@@ -324,7 +324,7 @@ app.get('/contarAnuncios', (req, res, next) => {
             return next(error);
         }
         var cantidadActualAnuncios = resultsanun[0].total;
-        if (cantidadActualAnuncios > session.numeroids){
+        if (cantidadActualAnuncios > req.session.numeroids){
             bol = 1;
             res.json(bol);
         }
