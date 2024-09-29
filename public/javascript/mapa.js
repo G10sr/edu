@@ -58,6 +58,11 @@ window.onload = function() {
     verificarNuevosAnuncios();
     verificarNuevosReportes();
     rolesfunc();
+    const mapContainer = document.getElementById('map');
+        const svgElement = document.getElementById('ey40nT29W7O1');
+        
+        mapContainer.scrollTop = (svgElement.clientHeight - mapContainer.clientHeight) / 2;
+        mapContainer.scrollLeft = (svgElement.clientWidth - mapContainer.clientWidth) / 2;
 };
 async function verificarNuevosReportes() {
     fetch('/contarReportes')
@@ -118,3 +123,20 @@ async function verificarNuevosReportes() {
                 console.error('Error:', error);
             });
         }
+
+
+        //controles del mapa 
+
+    let currentHeight = 1000; 
+    const minHeight = 500; 
+    const maxHeight = 3000; 
+
+    function zoomIn() {
+        currentHeight = Math.min(maxHeight, currentHeight + 100);
+        document.getElementById('ey40nT29W7O1').style.height = `${currentHeight}px`;
+    }
+
+    function zoomOut() {
+        currentHeight = Math.max(minHeight, currentHeight - 100);
+        document.getElementById('ey40nT29W7O1').style.height = `${currentHeight}px`;
+    }
