@@ -18,7 +18,7 @@ for (const ifaceName in networkInterfaces) {
 
   if (iface) {
     appip = iface.address;
-    break; // Usamos la primera interfaz no interna (no loopback)
+    break; 
   }
 }
 
