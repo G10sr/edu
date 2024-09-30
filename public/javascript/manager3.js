@@ -123,38 +123,42 @@ async function mostrarUsuarios() {
 
 async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
     const sameIGroupCheckboxes = document.querySelectorAll(`.checkbox[data-i="${event.target.dataset.i}"]`);
-    
+
     // Desmarcar otros checkboxes en el mismo grupo
     sameIGroupCheckboxes.forEach((cb) => {
         if (cb !== event.target) {
-            cb.checked = false;
+            cb.checked = false; 
         }
     });
 
-    // Verificar si el checkbox actual fue desmarcado
-    if (!event.target.checked) {
-        // Si se desmarca, asegurarse de que se establezca a "Sin rol"
-        fetch('/api/update-user1', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userId: userId, newRol: 0 }) // Sin rol (0)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('User role updated to Sin rol:', data);
-        })
-        .catch(error => {
-            console.error('Error updating user role:', error);
-        });
-    } else {
-        const verificacion = await postverificacion();
-        const roles = await rolesfunc();
+    const verificacion = await postverificacion(); // Verifica si el usuario tiene permisos
+    const roles = await rolesfunc();
 
+    // Si el checkbox se desmarca
+    if (!event.target.checked) {
+        // Si no hay permisos, se muestra mensaje de advertencia
         if (verificacion === 1 || roles === 1) {
-            return; // Evita la actualización si no hay permiso
+            console.log('No tienes permisos para quitar este rol.');
+            // Aquí podrías agregar un mensaje visual para el usuario si es necesario
         } else {
+            fetch('/api/update-user1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: userId, newRol: 0 }) // Sin rol (0)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('User role updated to Sin rol:', data);
+            })
+            .catch(error => {
+                console.error('Error updating user role:', error);
+            });
+        }
+    } else {
+        // Si el usuario tiene permiso, se actualiza el rol
+        if (!(verificacion === 1 || roles === 1)) {
             fetch('/api/update-user1', {
                 method: 'POST',
                 headers: {
@@ -169,6 +173,9 @@ async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
             .catch(error => {
                 console.error('Error updating user role:', error);
             });
+        } else {
+            console.log('No tienes permisos para asignar este rol.');
+            // Aquí podrías agregar un mensaje visual para el usuario si es necesario
         }
     }
 }
@@ -177,22 +184,31 @@ async function handlePermisoCheckboxClick(event, userId, currentRol) {
     const checkbox = event.target;
     let newPermiso = checkbox.checked ? 1 : 0;
 
-    // Actualizar permiso
-    fetch('/api/update-user2', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) // Enviar el ID del usuario y el nuevo permiso
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('User permission updated successfully:', data);
-    })
-    .catch(error => {
-        console.error('Error updating user permiso:', error);
-    });
+    const verificacion = await postverificacion(); // Verifica si el usuario tiene permisos
+    const roles = await rolesfunc();
+
+    // Solo permite cambiar el permiso si el usuario tiene permiso
+    if (!(verificacion === 1 || roles === 1)) {
+        fetch('/api/update-user2', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) // Enviar el ID del usuario y el nuevo permiso
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('User permission updated successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error updating user permiso:', error);
+        });
+    } else {
+        console.log('No tienes permisos para cambiar este permiso.');
+        // Aquí podrías agregar un mensaje visual para el usuario si es necesario
+    }
 }
+
 
 
 function refresh() {
