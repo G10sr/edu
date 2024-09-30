@@ -215,9 +215,11 @@ async function verificarNuevosReportes() {
                 imagen.setAttribute("x", "440");  // Cancha Interna
                 imagen.setAttribute("y", "450");  // Cancha Interna
             }
+            if(posicion[i]!= 100){
+                svg.appendChild(imagen);
+            }
         }
-            // Añadir la imagen al SVG
-            svg.appendChild(imagen);
+            
         }
     }
     
