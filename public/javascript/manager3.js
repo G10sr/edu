@@ -1,46 +1,46 @@
+
 let reportIds = [];
 let ids = [];
-var booling = 0; 
-var booling1 = 0; 
+let booling = 0;
+let booling1 = 0;
 let notdone = 0;
 
-
 async function mostrarUsuarios() {
-    booling = 0; 
-    booling1 = 0; 
+    booling = 0;
+    booling1 = 0;
     let nombresUsuarios = [];
     let correosUsuarios = [];
     let permisosUsuarios = [];
     let rolesUsuarios = [];
     let rolIds = [];
-    let ids = [];
 
     // Petición a la API para obtener los datos de usuarios
     await fetch('/api/usuarios')
-    .then(response => response.json())
-    .then(data => {
-        nombresUsuarios = data.map(item => item.name);
-        correosUsuarios = data.map(item => item.email);
-        permisosUsuarios = data.map(item => item.permiso);  // Nuevos datos de permisos
-        rolesUsuarios = data.map(item => item.rol);
-        rolIds = data.map(item => item.rol_id);  // ID de los roles
-        ids = data.map(item => item.id);
-    })
-    .catch(error => {
-        console.error('Error al obtener los usuarios:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            nombresUsuarios = data.map(item => item.name);
+            correosUsuarios = data.map(item => item.email);
+            permisosUsuarios = data.map(item => item.permiso); // Nuevos datos de permisos
+            rolesUsuarios = data.map(item => item.rol);
+            rolIds = data.map(item => item.rol_id); // ID de los roles
+            ids = data.map(item => item.id);
+        })
+        .catch(error => {
+            console.error('Error al obtener los usuarios:', error);
+        });
 
     let contenedor = document.getElementById("grid");
 
     // Bucle para mostrar los usuarios
     for (let i = 0; i < nombresUsuarios.length; i++) {
-
-        if (ids[i] == 4){
-        } else {
+        if (ids[i] === 4) {
+            continue; // Saltar el ID 4
+        }
+        
         let nombre = document.createTextNode(nombresUsuarios[i]);
         let correo = document.createTextNode(correosUsuarios[i]);
         let permisoTexto = permisosUsuarios[i] === 1 ? "✔️" : "❌"; // Texto de permiso
-        let permiso = document.createTextNode("Permiso: " + permisoTexto); 
+        let permiso = document.createTextNode("Permiso: " + permisoTexto);
         let rol = document.createTextNode("Rol: " + rolesUsuarios[i]);
 
         let caja = document.createElement("div");
@@ -70,13 +70,13 @@ async function mostrarUsuarios() {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.className = 'checkbox';
-            checkbox.dataset.i = i;   // Asigna el índice de usuario al dataset
-            checkbox.dataset.l = l;   // Asigna el rol al dataset
+            checkbox.dataset.i = i; // Asigna el índice de usuario al dataset
+            checkbox.dataset.l = l; // Asigna el rol al dataset
             checkbox.dataset.userid = ids[i]; // Asignar el id del usuario al dataset
 
             // Asignar evento onclick para actualizar el rol
             checkbox.onclick = function(event) {
-             handleCheckboxClick(event, ids[i], permisosUsuarios[i], l);
+                handleCheckboxClick(event, ids[i], permisosUsuarios[i], l);
             };
 
             const label = document.createElement('label');
@@ -84,8 +84,8 @@ async function mostrarUsuarios() {
             label.textContent = l === 0 ? 'None' : (l === 1 ? 'Admin' : 'Profesor');
 
             checkbox.checked = (rolIds[i] === 0 && l === 0) ||
-                               (rolIds[i] === 1 && l === 1) ||
-                               (rolIds[i] === 2 && l === 2);
+                (rolIds[i] === 1 && l === 1) ||
+                (rolIds[i] === 2 && l === 2);
 
             checkboxContainer.appendChild(checkbox);
             checkboxContainer.appendChild(label);
@@ -115,76 +115,85 @@ async function mostrarUsuarios() {
         nom.appendChild(mail);
         caja.appendChild(nom);
         caja.appendChild(permisoP);
-        caja.appendChild(checkboxContainer); 
-        
+        caja.appendChild(checkboxContainer);
+
         contenedor.appendChild(caja);
     }
-    }
 }
+
 async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
-    
-    if (newRol === null || newRol === undefined) {
-        newRol = 0; // Cambia este valor si "0" no representa el estado correcto de "sin rol"
-    }
     const sameIGroupCheckboxes = document.querySelectorAll(`.checkbox[data-i="${event.target.dataset.i}"]`);
+    
+    // Desmarcar otros checkboxes en el mismo grupo
     sameIGroupCheckboxes.forEach((cb) => {
         if (cb !== event.target) {
-            cb.checked = false; 
+            cb.checked = false;
         }
     });
-    const verificacion = await postverificacion();
-    const roles = await rolesfunc();
 
-    if (verificacion === 1 || roles === 1) {
-        return; 
+    // Verificar si el checkbox actual fue desmarcado
+    if (!event.target.checked) {
+        // Si se desmarca, asegurarse de que se establezca a "Sin rol"
+        fetch('/api/update-user1', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: userId, newRol: 0 }) // Sin rol (0)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('User role updated to Sin rol:', data);
+        })
+        .catch(error => {
+            console.error('Error updating user role:', error);
+        });
+    } else {
+        const verificacion = await postverificacion();
+        const roles = await rolesfunc();
+
+        if (verificacion === 1 || roles === 1) {
+            return; // Evita la actualización si no hay permiso
+        } else {
+            fetch('/api/update-user1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: userId, newRol: newRol }) // Actualiza con el nuevo rol
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('User role updated successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error updating user role:', error);
+            });
+        }
     }
-    // Realizar la solicitud para actualizar el rol y el permiso del usuario
-    fetch('/api/update-user', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userId, newRol, currentPermiso }) 
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('User role updated successfully:', data);
-    })
-    .catch(error => {
-        console.error('Error updating user role:', error);
-    });
 }
 
 async function handlePermisoCheckboxClick(event, userId, currentRol) {
     const checkbox = event.target;
     let newPermiso = checkbox.checked ? 1 : 0;
 
-    if (newPermiso !== 1 && newPermiso !== 0) {
-        console.error('Invalid value for permiso:', newPermiso);
-        newPermiso = 0;
-    }
-
-    const verificacion = await postverificacion();
-    const roles = await rolesfunc();
-
-    if (verificacion === 1 || roles === 1) {
-        return; 
-    }
-
-    fetch('/api/update-user', {
+    // Actualizar permiso
+    fetch('/api/update-user2', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId: userId, newRol: currentRol, newPermiso: newPermiso }) // Enviar el ID del usuario, el nuevo rol y el nuevo permiso
+        body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) // Enviar el ID del usuario y el nuevo permiso
     })
     .then(response => response.json())
     .then(data => {
+        console.log('User permission updated successfully:', data);
     })
     .catch(error => {
         console.error('Error updating user permiso:', error);
     });
 }
+
 
 function refresh() {
     var contenedor = document.getElementById("grid");

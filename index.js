@@ -361,13 +361,27 @@ app.get('/api/usuarios', (req, res) => {
 });
 
 // Endpoint para actualizar el rol del usuario
+app.post('/api/update-user1', (req, res) => {
+    const { userId, newRol } = req.body;
 
-app.post('/api/update-user', (req, res) => {
-    const { userId, newRol, newPermiso } = req.body;
+    const query = 'UPDATE usuarios SET rol_id = ? WHERE id = ?';
 
-    const query = 'UPDATE usuarios SET rol_id = ?, permiso = ? WHERE id = ?';
+    connection.query(query, [newRol, userId], (error, results) => {
+        if (error) {
+            console.error('Error al actualizar el usuario:', error);
+            return res.status(500).json({ error: 'Error al actualizar el usuario' });
+        }
 
-    connection.query(query, [newRol, newPermiso, userId], (error, results) => {
+        res.json({ success: true, message: 'Usuario actualizado correctamente' });
+    });
+});
+
+app.post('/api/update-user2', (req, res) => {
+    const { userId, newPermiso } = req.body;
+
+    const query = 'UPDATE usuarios SET permiso = ? WHERE id = ?';
+
+    connection.query(query, [newPermiso, userId], (error, results) => {
         if (error) {
             console.error('Error al actualizar el usuario:', error);
             return res.status(500).json({ error: 'Error al actualizar el usuario' });
