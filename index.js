@@ -4,8 +4,7 @@ const { readFile } = require('fs').promises;
 const os = require('os');
 
 const app = express();
-const port = process.env.PORT || 8000;
-app.use(express.static('build')); // O el directorio correcto
+const port = 8000;
 
 // Obtener la dirección IP de la máquina
 const networkInterfaces = os.networkInterfaces();
@@ -49,6 +48,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.static('public'));
 
 app.get('/', async (req, res) => {
   res.send(await readFile('./public/html/inicio.html', 'utf-8'));
