@@ -302,7 +302,6 @@ function verificarNuevosAnuncios() {
     .then(response => response.json())
     .then(data => {
     const bol = data;
-    console.log(bol);
     if (bol == 1) {
         if (booling == 0){
         booling = 1; 

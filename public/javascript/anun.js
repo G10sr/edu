@@ -48,7 +48,6 @@ async function mostrarTexto() {
         if ((fecha4 == fechaSinSimbolos && vigenciaanunciosReverse[i] == 0) || 
         (vigenciaanunciosReverse[i] != 0)){
             thereissomething =1;
-            console.log(fecha4+""+fechaSinSimbolos)
             let vigenciatotal = 'Resuelto ✔️';
 
             if (vigenciaanunciosReverse[i] == 0){
@@ -261,7 +260,6 @@ function verificarNuevosReportes() {
     .then(response => response.json())
     .then(data => {
     const bol = data;
-    console.log(bol);
     if (bol == 1) {
         if (booling == 0){
         booling = 1; 

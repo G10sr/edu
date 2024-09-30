@@ -94,7 +94,6 @@ app.get('/registro.html', async (req, res) => {
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Server running at http://0.0.0.0:${port}/`);
 });
 // app.listen(process.env.PORT || 3000, () => console.log('Disponible en http://localhost:3000 '));
 

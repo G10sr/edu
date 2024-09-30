@@ -175,7 +175,6 @@ function handlePermisoCheckboxClick(event, userId, currentRol) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('User permiso updated successfully:', data);
     })
     .catch(error => {
         console.error('Error updating user permiso:', error);
@@ -284,7 +283,6 @@ async function verificarNuevosReportes() {
     .then(response => response.json())
     .then(data => {
     const bol = data;
-    console.log(bol);
     if (bol == 1) {
         if (booling == 0){
         booling = 1; 
