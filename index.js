@@ -101,6 +101,7 @@ app.listen(port, '0.0.0.0', () => {
 ///////////////////////////////////////////// CONEXION
 const mysql = require('mysql');
 const { hrtime } = require('process');
+const { time } = require('console');
 app.use(express.json());
 
 const connection = mysql.createConnection({

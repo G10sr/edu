@@ -1,8 +1,9 @@
 let reportIds = [];
 let ids = [];
-
 var booling = 0; 
 var booling1 = 0; 
+let notdone = 0;
+
 
 async function mostrarUsuarios() {
     booling = 0; 
@@ -75,7 +76,7 @@ async function mostrarUsuarios() {
 
             // Asignar evento onclick para actualizar el rol
             checkbox.onclick = function(event) {
-                handleCheckboxClick(event, ids[i], permisosUsuarios[i], l);
+             handleCheckboxClick(event, ids[i], permisosUsuarios[i], l);
             };
 
             const label = document.createElement('label');
@@ -120,29 +121,30 @@ async function mostrarUsuarios() {
     }
     }
 }
-function handleCheckboxClick(event, userId, currentPermiso, newRol) {
-    // Si el nuevo rol es undefined o null, asignar 0 (o el valor que signifique "sin rol")
+async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
+    
     if (newRol === null || newRol === undefined) {
         newRol = 0; // Cambia este valor si "0" no representa el estado correcto de "sin rol"
     }
-
-    console.log(`userId: ${userId}, newRol: ${newRol}, currentPermiso: ${currentPermiso}`);
-
-    // Desmarcar otros checkboxes del mismo grupo (i)
     const sameIGroupCheckboxes = document.querySelectorAll(`.checkbox[data-i="${event.target.dataset.i}"]`);
     sameIGroupCheckboxes.forEach((cb) => {
         if (cb !== event.target) {
-            cb.checked = false; // Desmarca todos los demás checkboxes del mismo grupo
+            cb.checked = false; 
         }
     });
+    const verificacion = await postverificacion();
+    const roles = await rolesfunc();
 
+    if (verificacion === 1 || roles === 1) {
+        return; 
+    }
     // Realizar la solicitud para actualizar el rol y el permiso del usuario
     fetch('/api/update-user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, newRol, currentPermiso }) // Enviar el ID del usuario y el nuevo rol
+        body: JSON.stringify({ userId, newRol, currentPermiso }) 
     })
     .then(response => response.json())
     .then(data => {
@@ -153,19 +155,22 @@ function handleCheckboxClick(event, userId, currentPermiso, newRol) {
     });
 }
 
-function handlePermisoCheckboxClick(event, userId, currentRol) {
+async function handlePermisoCheckboxClick(event, userId, currentRol) {
     const checkbox = event.target;
-    let newPermiso = checkbox.checked ? 1 : 0; // Solo 1 o 0 deberían ser válidos
+    let newPermiso = checkbox.checked ? 1 : 0;
 
-    // Verificar si newPermiso tiene un valor válido
     if (newPermiso !== 1 && newPermiso !== 0) {
         console.error('Invalid value for permiso:', newPermiso);
         newPermiso = 0;
     }
 
-    console.log(`userId: ${userId}, currentRol: ${currentRol}, newPermiso: ${newPermiso}`);
+    const verificacion = await postverificacion();
+    const roles = await rolesfunc();
 
-    // Realizar la solicitud para actualizar el permiso y el rol del usuario
+    if (verificacion === 1 || roles === 1) {
+        return; 
+    }
+
     fetch('/api/update-user', {
         method: 'POST',
         headers: {
@@ -200,31 +205,36 @@ async function rolesfunc() {
     .then(data => {
         let rol = data; 
         if (rol.rolId[0]==1){
-            var hiper = document.getElementById("hipervinculos");
-            let newListItem = document.createElement('li');
-
-            newListItem.innerHTML = `
-                <a href="manager.html" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerRep
-                </a>`;
-            let newListItem2 = document.createElement('li');
-
-            newListItem2.innerHTML = `
-                <a href="manager2.html" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
-                </a>`;
-                let newListItem3 = document.createElement('li');
-
-                newListItem3.innerHTML = `
-                <a href="manager3.html" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
-                </a>`;
-        hiper.appendChild(newListItem);
-        hiper.appendChild(newListItem2);
-        hiper.appendChild(newListItem3);
+            if(notdone == 0){
+                var hiper = document.getElementById("hipervinculos");
+                let newListItem = document.createElement('li');
+    
+                newListItem.innerHTML = `
+                    <a href="manager.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerRep
+                    </a>`;
+                let newListItem2 = document.createElement('li');
+    
+                newListItem2.innerHTML = `
+                    <a href="manager2.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
+                    </a>`;
+                    let newListItem3 = document.createElement('li');
+    
+                    newListItem3.innerHTML = `
+                    <a href="manager3.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
+                    </a>`;
+            hiper.appendChild(newListItem);
+            hiper.appendChild(newListItem2);
+            hiper.appendChild(newListItem3);
+            notdone = 1;
+            }
+            
         } else {
             alert("You don't have permission for this")
             window.location.href = '/reportes.html'; 
+            return 1;
         }
     })
     .catch(error => {
@@ -239,7 +249,8 @@ async function postverificacion() {
         if (ver.permisoid[0]==1){
 
         } else if (ver.permisoid[0]==0) {
-            window.location.href = 'iniciosesion.html'; 
+            window.location.href = '/iniciosesion.html'; 
+            return 1;
         }
     })
     .catch(error => {

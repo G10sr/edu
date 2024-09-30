@@ -1,10 +1,8 @@
 let reportIds = [];
 let ids = [];
-
-
 var booling = 0; 
 var booling1 = 0; 
-
+let notdone=0;
 
 async function mostrarTexto() {
     booling = 0; 
@@ -126,7 +124,7 @@ async function mostrarTexto() {
     }
 }
 
-function handleCheckboxClick(event, reportId) {
+async function handleCheckboxClick(event, reportId) {
     const checkbox = event.target; // Obtener el checkbox que fue clicado
     const newVigencia = parseInt(checkbox.dataset.l); // Obtener la nueva vigencia desde el dataset del checkbox
 
@@ -137,8 +135,12 @@ function handleCheckboxClick(event, reportId) {
             cb.checked = false;
         }
     });
+    const verificacion = await postverificacion();
+    const roles = await rolesfunc();
 
-    // Realizar la solicitud para actualizar el reporte
+    if (verificacion === 1 || roles === 1) {
+        return; // Si no tiene permisos, se detiene la ejecución
+    }
     fetch('/api/update-report', {
         method: 'POST',
         headers: {
@@ -173,31 +175,36 @@ async function rolesfunc() {
     .then(data => {
         let rol = data; 
         if (rol.rolId[0]==1){
-            var hiper = document.getElementById("hipervinculos");
-            let newListItem = document.createElement('li');
-
-            newListItem.innerHTML = `
-                <a href="manager.html" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerRep
-                </a>`;
-            let newListItem2 = document.createElement('li');
-
-            newListItem2.innerHTML = `
-                <a href="manager2.html" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
-                </a>`;
-                let newListItem3 = document.createElement('li');
-
-                newListItem3.innerHTML = `
-                <a href="manager3.html" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
-                </a>`;
-        hiper.appendChild(newListItem);
-        hiper.appendChild(newListItem2);
-        hiper.appendChild(newListItem3);
+            if(notdone == 0){
+                var hiper = document.getElementById("hipervinculos");
+                let newListItem = document.createElement('li');
+    
+                newListItem.innerHTML = `
+                    <a href="manager.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerRep
+                    </a>`;
+                let newListItem2 = document.createElement('li');
+    
+                newListItem2.innerHTML = `
+                    <a href="manager2.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
+                    </a>`;
+                    let newListItem3 = document.createElement('li');
+    
+                    newListItem3.innerHTML = `
+                    <a href="manager3.html" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
+                    </a>`;
+            hiper.appendChild(newListItem);
+            hiper.appendChild(newListItem2);
+            hiper.appendChild(newListItem3);
+            notdone = 1;
+            }
+            
         } else {
             alert("You don't have permission for this")
             window.location.href = '/reportes.html'; 
+            return 1;
         }
     })
     .catch(error => {
@@ -212,7 +219,8 @@ async function postverificacion() {
         if (ver.permisoid[0]==1){
 
         } else if (ver.permisoid[0]==0) {
-            window.location.href = 'iniciosesion.html'; 
+            window.location.href = '/iniciosesion.html'; 
+            return 1;
         }
     })
     .catch(error => {

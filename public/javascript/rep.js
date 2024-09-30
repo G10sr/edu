@@ -288,7 +288,7 @@ async function postverificacion() {
 
         } else if (ver.permisoid[0]==0) {
             alert("You don't have permission for this")
-            window.location.href = 'iniciosesion.html'; 
+            window.location.href = '/iniciosesion.html'; 
         }
     })
     .catch(error => {
