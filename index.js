@@ -49,7 +49,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.static('public'));
 
 app.get('/', async (req, res) => {
   res.send(await readFile('./public/html/inicio.html', 'utf-8'));
