@@ -5,6 +5,7 @@ const os = require('os');
 
 const app = express();
 const port = 8000;
+app.use(express.static('build')); // O el directorio correcto
 
 // Obtener la dirección IP de la máquina
 const networkInterfaces = os.networkInterfaces();
