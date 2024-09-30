@@ -1,7 +1,7 @@
 var booling = 0; 
 var fechaActual = new Date();
 var dia = String(fechaActual.getDate()).padStart(2, '0');
-var mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses empiezan en 0
+var mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
 var anio = fechaActual.getFullYear();
 
 var fecha = `${anio}/${mes}/${dia}`;

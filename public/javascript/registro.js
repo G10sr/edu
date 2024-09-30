@@ -4,7 +4,7 @@ submit = document.getElementById("buton1");
 document.querySelector(".form").addEventListener('submit', (event) => {
     event.preventDefault();
     
-    const getuser1 = document.getElementById("usuario").value;
+    const getuser1 = (document.getElementById("usuario").value).trim();
     const getname1 = document.getElementById("nombre").value;
     const getpassword1 = document.getElementById("password").value;
     const getpassword2 = document.getElementById("password2").value;

@@ -14,15 +14,14 @@ async function mostrarUsuarios() {
     let rolesUsuarios = [];
     let rolIds = [];
 
-    // Petición a la API para obtener los datos de usuarios
     await fetch('/api/usuarios')
         .then(response => response.json())
         .then(data => {
             nombresUsuarios = data.map(item => item.name);
             correosUsuarios = data.map(item => item.email);
-            permisosUsuarios = data.map(item => item.permiso); // Nuevos datos de permisos
+            permisosUsuarios = data.map(item => item.permiso); 
             rolesUsuarios = data.map(item => item.rol);
-            rolIds = data.map(item => item.rol_id); // ID de los roles
+            rolIds = data.map(item => item.rol_id); 
             ids = data.map(item => item.id);
         })
         .catch(error => {
@@ -31,15 +30,14 @@ async function mostrarUsuarios() {
 
     let contenedor = document.getElementById("grid");
 
-    // Bucle para mostrar los usuarios
     for (let i = 0; i < nombresUsuarios.length; i++) {
         if (ids[i] === 4) {
-            continue; // Saltar el ID 4
+            continue; 
         }
         
         let nombre = document.createTextNode(nombresUsuarios[i]);
         let correo = document.createTextNode(correosUsuarios[i]);
-        let permisoTexto = permisosUsuarios[i] === 1 ? "✔️" : "❌"; // Texto de permiso
+        let permisoTexto = permisosUsuarios[i] === 1 ? "✔️" : "❌"; 
         let permiso = document.createTextNode("Permiso: " + permisoTexto);
         let rol = document.createTextNode("Rol: " + rolesUsuarios[i]);
 
@@ -63,18 +61,16 @@ async function mostrarUsuarios() {
         role.setAttribute("class", "rol");
         role.appendChild(rol);
 
-        // Crear checkboxes para los roles (0: Sin Rol, 1: Admin, 2: Profesor)
         const checkboxContainer = document.createElement('div');
 
         for (let l = 0; l <= 2; l++) {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.className = 'checkbox';
-            checkbox.dataset.i = i; // Asigna el índice de usuario al dataset
-            checkbox.dataset.l = l; // Asigna el rol al dataset
-            checkbox.dataset.userid = ids[i]; // Asignar el id del usuario al dataset
+            checkbox.dataset.i = i; 
+            checkbox.dataset.l = l; 
+            checkbox.dataset.userid = ids[i]; 
 
-            // Asignar evento onclick para actualizar el rol
             checkbox.onclick = function(event) {
                 handleCheckboxClick(event, ids[i], permisosUsuarios[i], l);
             };
@@ -93,13 +89,11 @@ async function mostrarUsuarios() {
             checkboxContainer.className = "chex";
         }
 
-        // Checkbox para el permiso
         const permisoCheckbox = document.createElement('input');
         permisoCheckbox.type = 'checkbox';
         permisoCheckbox.className = 'permiso-checkbox';
         permisoCheckbox.checked = permisosUsuarios[i] === 1;
 
-        // Asignar evento onclick para actualizar el permiso
         permisoCheckbox.onclick = function(event) {
             handlePermisoCheckboxClick(event, ids[i], rolIds[i]);
         };
@@ -124,29 +118,25 @@ async function mostrarUsuarios() {
 async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
     const sameIGroupCheckboxes = document.querySelectorAll(`.checkbox[data-i="${event.target.dataset.i}"]`);
 
-    // Desmarcar otros checkboxes en el mismo grupo
     sameIGroupCheckboxes.forEach((cb) => {
         if (cb !== event.target) {
             cb.checked = false; 
         }
     });
 
-    const verificacion = await postverificacion(); // Verifica si el usuario tiene permisos
+    const verificacion = await postverificacion();
     const roles = await rolesfunc();
 
-    // Si el checkbox se desmarca
     if (!event.target.checked) {
-        // Si no hay permisos, se muestra mensaje de advertencia
         if (verificacion === 1 || roles === 1) {
             console.log('No tienes permisos para quitar este rol.');
-            // Aquí podrías agregar un mensaje visual para el usuario si es necesario
         } else {
             fetch('/api/update-user1', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId: userId, newRol: 0 }) // Sin rol (0)
+                body: JSON.stringify({ userId: userId, newRol: 0 }) 
             })
             .then(response => response.json())
             .then(data => {
@@ -164,7 +154,7 @@ async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId: userId, newRol: newRol }) // Actualiza con el nuevo rol
+                body: JSON.stringify({ userId: userId, newRol: newRol }) 
             })
             .then(response => response.json())
             .then(data => {
@@ -175,7 +165,6 @@ async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
             });
         } else {
             console.log('No tienes permisos para asignar este rol.');
-            // Aquí podrías agregar un mensaje visual para el usuario si es necesario
         }
     }
 }
@@ -184,17 +173,16 @@ async function handlePermisoCheckboxClick(event, userId, currentRol) {
     const checkbox = event.target;
     let newPermiso = checkbox.checked ? 1 : 0;
 
-    const verificacion = await postverificacion(); // Verifica si el usuario tiene permisos
+    const verificacion = await postverificacion(); 
     const roles = await rolesfunc();
 
-    // Solo permite cambiar el permiso si el usuario tiene permiso
     if (!(verificacion === 1 || roles === 1)) {
         fetch('/api/update-user2', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) // Enviar el ID del usuario y el nuevo permiso
+            body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) 
         })
         .then(response => response.json())
         .then(data => {
@@ -205,7 +193,6 @@ async function handlePermisoCheckboxClick(event, userId, currentRol) {
         });
     } else {
         console.log('No tienes permisos para cambiar este permiso.');
-        // Aquí podrías agregar un mensaje visual para el usuario si es necesario
     }
 }
 

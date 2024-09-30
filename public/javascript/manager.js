@@ -139,14 +139,14 @@ async function handleCheckboxClick(event, reportId) {
     const roles = await rolesfunc();
 
     if (verificacion === 1 || roles === 1) {
-        return; // Si no tiene permisos, se detiene la ejecución
+        return; 
     } else {
         fetch('/api/update-report', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ reportId: reportId, newVigencia: newVigencia }) // Enviar el ID y nueva vigencia
+            body: JSON.stringify({ reportId: reportId, newVigencia: newVigencia }) 
         })
         .then(response => response.json())
         .then(data => {
