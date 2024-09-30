@@ -147,8 +147,7 @@ async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
             });
         }
     } else {
-        // Si el usuario tiene permiso, se actualiza el rol
-        if (!(verificacion === 1 || roles === 1)) {
+        if (!(verificacion == 1 || roles == 1)) {
             fetch('/api/update-user1', {
                 method: 'POST',
                 headers: {

@@ -13,7 +13,7 @@ document.querySelector(".form").addEventListener('submit', (event) => {
     }
     
     const data = { getuser, getpassword }; 
-
+    console.log(data)
     fetch('/enviarDatos', {
         method: 'POST', 
         headers: {
