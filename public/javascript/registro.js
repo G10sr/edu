@@ -6,21 +6,12 @@ document.querySelector(".form").addEventListener('submit', (event) => {
     
     const getuser1 = (document.getElementById("usuario").value).trim();
     const getname1 = document.getElementById("nombre").value;
-    const getpassword1 = document.getElementById("password").value;
-    const getpassword2 = document.getElementById("password2").value;
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const getpassword1 = document.getElementById("password").value.trim();
+    const getpassword2 = document.getElementById("password2").value.trim();
     
 if (!getuser1 || !getpassword1 || !getpassword2 || !getname1) {
         alert("Por favor ingresa todos los datos.");
         event.preventDefault;
-}
-else if (!emailPattern.test(getuser1)) {
-    alert('Por favor, ingresa un correo electrónico válido.');
-    event.preventDefault(); 
-}
-else if (getpassword1.length < 7) {
-    alert('La contraseña debe tener al menos 7 caracteres.');
-    event.preventDefault(); 
 }
 else if (getpassword1 == getpassword2){
     

@@ -5,7 +5,7 @@ document.querySelector(".form").addEventListener('submit', (event) => {
     event.preventDefault();
     
     const getuser = (document.getElementById("usuario").value).trim();
-    const getpassword = document.getElementById("pasword").value;
+    const getpassword = document.getElementById("pasword").value.trim();
     
     if (!getuser || !getpassword) {
         alert("Por favor ingresa usuario y contraseña.");
