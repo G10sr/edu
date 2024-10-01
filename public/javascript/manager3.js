@@ -127,47 +127,73 @@ async function handleCheckboxClick(event, userId, currentPermiso, newRol) {
     const verificacion = await postverificacion();
     const roles = await rolesfunc();
 
-    if (!event.target.checked) {
+if (!event.target.checked) {
         if (verificacion === 1 || roles === 1) {
             console.log('No tienes permisos para quitar este rol.');
         } else {
-            fetch('/api/update-user1', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userId: userId, newRol: 0 }) 
-            })
-            .then(response => response.json())
+            await fetch('/api/roles')
+            .then(response => response.json())  
             .then(data => {
-                console.log('User role updated to Sin rol:', data);
-            })
-            .catch(error => {
-                console.error('Error updating user role:', error);
-            });
+            let rol = data; 
+            if (rol.rolId[0]==1){
+                fetch('/api/update-user1', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: userId, newRol: 0 }) 
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User role updated to Sin rol:', data);
+                })
+                .catch(error => {
+                    console.error('Error updating user role:', error);
+                });
+            } else {
+                console.log('No tienes permisos para asignar este rol.');
+                window.location.href = '/reportes.html'; 
+            }         
+        })
+        .catch(error => {
+            console.error('Error al obtener los reportes:', error);
+        });
         }
-    } else {
-        if (!(verificacion == 1 || roles == 1)) {
-            fetch('/api/update-user1', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userId: userId, newRol: newRol }) 
-            })
-            .then(response => response.json())
+} else {
+        if (!(verificacion === 1 || roles === 1)) {
+        await fetch('/api/roles')
+            .then(response => response.json())  
             .then(data => {
-                console.log('User role updated successfully:', data);
-            })
-            .catch(error => {
-                console.error('Error updating user role:', error);
-            });
-        } else {
-            console.log('No tienes permisos para asignar este rol.');
-        }
+            let rol = data; 
+            if (rol.rolId[0]==1){
+                fetch('/api/update-user1', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: userId, newRol: newRol }) 
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User role updated successfully:', data);
+                })
+                .catch(error => {
+                    console.error('Error updating user role:', error);
+                });
+            } else {
+                console.log('No tienes permisos para asignar este rol.');
+                window.location.href = '/reportes.html'; 
+            }         
+        })
+        .catch(error => {
+            console.error('Error al obtener los reportes:', error);
+        });
+            } else {
+    console.log('No tienes permisos para asignar este rol.');
+    window.location.href = '/reportes.html'; 
+    }
     }
 }
-
 async function handlePermisoCheckboxClick(event, userId, currentRol) {
     const checkbox = event.target;
     let newPermiso = checkbox.checked ? 1 : 0;
@@ -176,22 +202,37 @@ async function handlePermisoCheckboxClick(event, userId, currentRol) {
     const roles = await rolesfunc();
 
     if (!(verificacion === 1 || roles === 1)) {
-        fetch('/api/update-user2', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) 
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('User permission updated successfully:', data);
+        await fetch('/api/roles')
+            .then(response => response.json())  
+            .then(data => {
+            let rol = data; 
+            if (rol.rolId[0]==1){
+                fetch('/api/update-user2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: userId, newPermiso: newPermiso }) 
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User permission updated successfully:', data);
+                })
+                .catch(error => {
+                    console.error('Error updating user permiso:', error);
+                });
+            } else {
+                console.log('No tienes permisos para asignar este rol.');
+                window.location.href = '/reportes.html'; 
+            }         
         })
         .catch(error => {
-            console.error('Error updating user permiso:', error);
+            console.error('Error al obtener los reportes:', error);
         });
+        
     } else {
         console.log('No tienes permisos para cambiar este permiso.');
+        window.location.href = '/reportes.html';
     }
 }
 

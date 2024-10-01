@@ -141,20 +141,33 @@ async function handleCheckboxClick(event, reportId) {
     if (verificacion === 1 || roles === 1) {
         return; 
     } else {
-        fetch('/api/update-report', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ reportId: reportId, newVigencia: newVigencia }) 
-        })
-        .then(response => response.json())
+        await fetch('/api/roles')
+        .then(response => response.json())  
         .then(data => {
-            console.log('Report updated successfully:', data);
-        })
-        .catch(error => {
-            console.error('Error updating report:', error);
-        });
+        let rol = data; 
+        if (rol.rolId[0]==1){
+            fetch('/api/update-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ reportId: reportId, newVigencia: newVigencia }) 
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Report updated successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error updating report:', error);
+            });
+        } else {
+            console.log('No tienes permisos para asignar este rol.');
+            window.location.href = '/reportes.html'; 
+        }         
+    })
+    .catch(error => {
+        console.error('Error al obtener los reportes:', error);
+    });
     }
     
 }
