@@ -33,7 +33,7 @@ else if (getpassword1 == getpassword2){
     .then(async data => {
         
         if (data == 1) {
-            window.location.href = '/iniciosesion.html'; 
+            window.location.href = '/iniciosesion'; 
             alert('Usuario creado, espera la autorización');
         } else  if (data == 2) {
             alert('Credenciales Repetidas o Invalidas');

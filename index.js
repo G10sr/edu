@@ -54,42 +54,42 @@ app.get('/', async (req, res) => {
   res.send(await readFile('./public/html/inicio.html', 'utf-8'));
 });
 
-app.get('/manager.html', async (req, res) => {
+app.get('/manager',verificarAutenticacion, async (req, res) => {
   res.send(await readFile('./public/html/managerreportes.html', 'utf-8'));
 });
 
-app.get('/manager2.html', async (req, res) => {
+app.get('/manager2',verificarAutenticacion, async (req, res) => {
   res.send(await readFile('./public/html/manageranuncios.html', 'utf-8'));
 });
-app.get('/manager3.html', async (req, res) => {
+app.get('/manager3',verificarAutenticacion, async (req, res) => {
     res.send(await readFile('./public/html/managerusuario.html', 'utf-8'));
   });
 
-app.get('/about.html', async (req, res) => {
+app.get('/about', async (req, res) => {
   res.send(await readFile('./public/html/about.html', 'utf-8'));
 });
 
-app.get('/inicio.html', async (req, res) => {
+app.get('/inicio', async (req, res) => {
   res.send(await readFile('./public/html/inicio.html', 'utf-8'));
 });
 
-app.get('/iniciosesion.html', async (req, res) => {
+app.get('/iniciosesion', async (req, res) => {
   res.send(await readFile('./public/html/iniciosesion.html', 'utf-8'));
 });
 
-app.get('/reportes.html', async (req, res) => {
+app.get('/reportes',verificarAutenticacion, async (req, res) => {
   res.send(await readFile('./public/html/reportes.html', 'utf-8'));
 });
 
-app.get('/anuncios.html', async (req, res) => {
+app.get('/anuncios',verificarAutenticacion, async (req, res) => {
   res.send(await readFile('./public/html/anuncios.html', 'utf-8'));
 });
 
-app.get('/mapa.html', async (req, res) => {
+app.get('/mapa',verificarAutenticacion, async (req, res) => {
   res.send(await readFile('./public/html/mapa.html', 'utf-8'));
 });
 
-app.get('/registro.html', async (req, res) => {
+app.get('/registro', async (req, res) => {
   res.send(await readFile('./public/html/registro.html', 'utf-8'));
 });
 
@@ -395,7 +395,8 @@ app.post('/api/logout', (req, res) => {
         if (err) {
             return res.status(500).send('Error al cerrar sesión');
         }
-        res.status(200).send('Sesión cerrada');
+        res.clearCookie('connect.sid'); 
+        res.redirect('/iniciosesion'); 
     });
 });
 
@@ -415,12 +416,21 @@ app.get('/api/mapa', (req,res) => {
  //selectores
 
  app.get('/api/selector', (req, res, next) => {
-    const queryrep = 'SELECT id, aula FROM lugar;';  // Consulta sólo los campos necesarios
+    const queryrep = 'SELECT id, aula FROM lugar;';  
     
     connection.query(queryrep, (error, resultsrep) => {
         if (error) {
             return next(error);
         }
-        res.json(resultsrep);  // Enviar los resultados como JSON al cliente
+        res.json(resultsrep);  
     });
 });
+
+function verificarAutenticacion(req, res, next) {
+    if (req.session.userlogged) {
+        next(); 
+    } else {
+        res.redirect('/iniciosesion'); 
+    }
+}
+

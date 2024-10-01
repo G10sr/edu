@@ -32,7 +32,7 @@ document.querySelector(".form").addEventListener('submit', (event) => {
         if (data == 2) {
             alert('Inicio de sesion no autorizado');
         } else if (data == 1) {
-            window.location.href = '/reportes.html'; 
+            window.location.href = '/reportes'; 
         } else {
             alert('Credenciales Invalidas');
         }
