@@ -18,7 +18,7 @@
                 <label for="nombre">Nombre y Apellido</label>
             </div>
             <div class="usuario">
-                <input type="text" required id="usuario" autocomplete="email">
+                <input type="text" required id="usuario" autocomplete="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" min="7">
                 <span></span>
                 <label for="usuario">Correo</label>
             </div>
@@ -35,7 +35,7 @@
             <input type="submit" id="buton1" value="Registrar">
         </form>
     </div>
-    <p class="sublink" onclick="window.location.href='iniciosesion.html'"> Haz click aqui para Iniciar Sesion </p>
+    <p class="sublink" onclick="window.location.href='iniciosesion'"> Haz click aqui para Iniciar Sesion </p>
 
     <label class="infoIT">
         Si necesita ayuda iniciando sesión, contacte a IT

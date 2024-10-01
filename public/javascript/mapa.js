@@ -12,19 +12,19 @@ async function rolesfunc() {
             let newListItem = document.createElement('li');
 
             newListItem.innerHTML = `
-                <a href="manager.html" class="opciones">
+                <a href="manager" class="opciones">
                     <i class="fa-solid fa-clipboard-list"></i> ManagerRep
                 </a>`;
             let newListItem2 = document.createElement('li');
 
             newListItem2.innerHTML = `
-                <a href="manager2.html" class="opciones">
+                <a href="manager2" class="opciones">
                     <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
                 </a>`;
                 let newListItem3 = document.createElement('li');
 
                 newListItem3.innerHTML = `
-                    <a href="manager3.html" class="opciones">
+                    <a href="manager3" class="opciones">
                         <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
                     </a>`;
             hiper.appendChild(newListItem);
@@ -46,7 +46,7 @@ async function postverificacion() {
 
         } else if (ver.permisoid[0]==0) {
             alert("You don't have permission for this")
-            window.location.href = '/iniciosesion.html'; 
+            window.location.href = '/iniciosesion'; 
         }
     })
     .catch(error => {
@@ -114,7 +114,7 @@ async function verificarNuevosReportes() {
             })
             .then(response => {
                 if (response.ok) {
-                    window.location.href = '/iniciosesion.html'; 
+                    window.location.href = '/iniciosesion'; 
                 } else {
                     console.error('Error al cerrar sesión');
                 }

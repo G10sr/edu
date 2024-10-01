@@ -1,7 +1,7 @@
 var booling = 0; 
 var fechaActual = new Date();
 var dia = String(fechaActual.getDate()).padStart(2, '0');
-var mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses empiezan en 0
+var mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); 
 var anio = fechaActual.getFullYear();
 
 var fecha = `${anio}/${mes}/${dia}`;
@@ -212,30 +212,44 @@ async function createReport(){
         problema: problema
     }
     if(titulo != '' && reporte != ''){
-    fetch('/enviarReporte', {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Error en la solicitud"); 
-        }
-        return response.json(); 
-    })
-    .then(async data => {
-        
-        if (data == 1) {
-            window.location.href = '/reportes.html'; 
-        } else {
-            alert('Credenciales incorrectas');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error); 
-    });
+        await fetch('/api/verificacion')
+        .then(response => response.json())  
+        .then(data => {
+            let ver = data; 
+            if (ver.permisoid[0]==1){
+                fetch('/enviarReporte', {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud"); 
+                    }
+                    return response.json(); 
+                })
+                .then(async data => {
+                    
+                    if (data == 1) {
+                        window.location.href = '/reportes'; 
+                    } else {
+                        alert('Credenciales incorrectas');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error); 
+                });
+            } else if (ver.permisoid[0]==0) {
+                alert("You don't have permission for this")
+                window.location.href = '/iniciosesion'; 
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener los reportes:', error);
+        });
+    
     } else{
         alert("Ingrese todos los datos"); 
     }
@@ -252,21 +266,21 @@ async function rolesfunc() {
             let newListItem = document.createElement('li');
 
             newListItem.innerHTML = `
-                <a href="manager.html" class="opciones">
+                <a href="manager" class="opciones">
                     <i class="fa-solid fa-clipboard-list"></i> ManagerRep
                 </a>`;
 
             let newListItem2 = document.createElement('li');
 
             newListItem2.innerHTML = `
-                <a href="manager2.html" class="opciones">
+                <a href="manager2" class="opciones">
                     <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
                 </a>`;
 
                 let newListItem3 = document.createElement('li');
 
                 newListItem3.innerHTML = `
-                    <a href="manager3.html" class="opciones">
+                    <a href="manager3" class="opciones">
                         <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
                     </a>`;
             hiper.appendChild(newListItem);
@@ -280,6 +294,7 @@ async function rolesfunc() {
     });
 }
 async function postverificacion() {
+    
     await fetch('/api/verificacion')
     .then(response => response.json())  
     .then(data => {
@@ -288,7 +303,7 @@ async function postverificacion() {
 
         } else if (ver.permisoid[0]==0) {
             alert("You don't have permission for this")
-            window.location.href = '/iniciosesion.html'; 
+            window.location.href = '/iniciosesion'; 
         }
     })
     .catch(error => {
@@ -333,7 +348,7 @@ function logout() {
     })
     .then(response => {
         if (response.ok) {
-            window.location.href = '/iniciosesion.html'; 
+            window.location.href = '/iniciosesion'; 
         } else {
             console.error('Error al cerrar sesión');
         }
