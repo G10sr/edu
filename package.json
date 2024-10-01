@@ -14,7 +14,8 @@
     "body-parser": "^1.20.2",
     "express": "^4.21.0",
     "express-session": "^1.18.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "proyecto": "file:"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
