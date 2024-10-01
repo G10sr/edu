@@ -153,12 +153,7 @@ async function createReport(){
     var titulo = document.getElementById("reptitulo").value;
     var reporte = document.getElementById("reporte").value;
 
-    var data = {
-        titulo: titulo,
-        reporte: reporte,
-        fecha: fecha,
-        lugar: lugar,
-    }
+    
 
     if(titulo != '' && reporte != ''){
         await fetch('/api/verificacion')
@@ -166,6 +161,12 @@ async function createReport(){
         .then(data => {
             let ver = data; 
             if (ver.permisoid[0]==1){
+                var data = {
+                    titulo: titulo,
+                    reporte: reporte,
+                    fecha: fecha,
+                    lugar: lugar,
+                }
                 fetch('/enviarAnuncio', {
                     method: 'POST', 
                     headers: {

@@ -203,20 +203,20 @@ async function createReport(){
         urgencia = 1;
     } else {}
 
-    var data = {
-        titulo: titulo,
-        reporte: reporte,
-        urgencia: urgencia,
-        fecha: fecha,
-        lugar: lugar,
-        problema: problema
-    }
     if(titulo != '' && reporte != ''){
         await fetch('/api/verificacion')
         .then(response => response.json())  
         .then(data => {
             let ver = data; 
             if (ver.permisoid[0]==1){
+                var data = {
+                    titulo: titulo,
+                    reporte: reporte,
+                    urgencia: urgencia,
+                    fecha: fecha,
+                    lugar: lugar,
+                    problema: problema
+                }
                 fetch('/enviarReporte', {
                     method: 'POST', 
                     headers: {
