@@ -151,7 +151,7 @@ app.post('/enviarDatos', (req, res) => {
 //ANUNCIOS
 
 app.get('/api/anuncios', (req,res) => {
-   const queryanun = 'SELECT anuncios.*, usuarios.name, lugar.aula AS aula, (SELECT COUNT(id) FROM anuncios) AS total FROM anuncios JOIN usuarios ON anuncios.user_id = usuarios.id JOIN lugar ON anuncios.lugar = lugar.id;';
+    const queryanun = 'SELECT anuncios.*, usuarios.name, lugar.aula AS aula, (SELECT COUNT(id) FROM anuncios) AS total FROM anuncios JOIN usuarios ON anuncios.user_id = usuarios.id JOIN lugar ON anuncios.lugar_id = lugar.id;';
 
    connection.query(queryanun, (error, resultsan) => {
       if (error) {
@@ -167,7 +167,7 @@ app.get('/api/anuncios', (req,res) => {
 app.post('/enviarAnuncio', (req, res) => {
    var bol = 0; 
    const { titulo, reporte, fecha, lugar } = req.body;
-   const sql = `INSERT INTO anuncios (nombre, descripcion, fecha, vigencia, lugar, user_id) VALUES (?, ?, ?, ?, ?, ?)`;
+   const sql = `INSERT INTO anuncios (nombre, descripcion, fecha, vigencia, lugar_id, user_id) VALUES (?, ?, ?, ?, ?, ?)`;
     connection.query(sql, [titulo, reporte, fecha, 2, lugar, req.session.userlogged], (err, result) => {
         if (err) {
             console.error('Error al insertar datos en la base de datos:', err);
@@ -208,7 +208,7 @@ app.post('/registrarUsuario', (req, res) => {
 });
 // REPORTES
 app.get('/api/reportes', (req,res) => {
-   const queryrep = 'SELECT reportes.*, usuarios.name, lugar.aula AS aula, (SELECT COUNT(id) FROM reportes) AS total FROM reportes JOIN usuarios ON reportes.user_id = usuarios.id JOIN lugar ON reportes.lugar = lugar.id;';
+   const queryrep = 'SELECT reportes.*, usuarios.name, lugar.aula AS aula, (SELECT COUNT(id) FROM reportes) AS total FROM reportes JOIN usuarios ON reportes.user_id = usuarios.id JOIN lugar ON reportes.lugar_id = lugar.id;';
 
    connection.query(queryrep, (error, resultsrep) => {
       if (error) {
@@ -259,7 +259,7 @@ app.get('/api/verificacion', (req, res) => {
 app.post('/enviarReporte', (req, res) => {
    var bol = 0; 
    const { titulo, reporte, urgencia, fecha, lugar, problema } = req.body;
-   const sql = `INSERT INTO reportes (nombre, descripcion, fecha, urgencia, vigencia, tipo_reporte, lugar, user_id) VALUES (?, ?, ?, ?, ?, ?,?,?)`;
+   const sql = `INSERT INTO reportes (nombre, descripcion, fecha, urgencia, vigencia, tipo_reporte, lugar_id, user_id) VALUES (?, ?, ?, ?, ?, ?,?,?)`;
     connection.query(sql, [titulo, reporte, fecha, urgencia, 2, problema, lugar, req.session.userlogged], (err, result) => {
         if (err) {
             console.error('Error al insertar datos en la base de datos:', err);
@@ -402,7 +402,7 @@ app.post('/api/logout', (req, res) => {
 
 //MAPA 
 app.get('/api/mapa', (req,res) => {
-    const queryrep = 'SELECT reportes.*, lugar.*FROM reportes JOIN lugar ON reportes.lugar = lugar.id;';
+    const queryrep = 'SELECT reportes.*, lugar.*FROM reportes JOIN lugar ON reportes.lugar_id = lugar.id;';
  
     connection.query(queryrep, (error, resultsrep) => {
        if (error) {
