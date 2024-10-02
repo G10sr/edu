@@ -511,7 +511,7 @@ select {
     .opciones{
         color: rgb(255, 255, 255);
         font-family: "Nunito", sans-serif;        
-        font-size: 4dvh;
+        font-size: 3dvh;
         width: fit-content;
         transition-duration: 50ms;
 

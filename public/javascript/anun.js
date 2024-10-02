@@ -217,19 +217,22 @@ async function rolesfunc() {
 
             newListItem.innerHTML = `
                 <a href="manager" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerRep
+                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
+                    Reportes
                 </a>`;
             let newListItem2 = document.createElement('li');
 
             newListItem2.innerHTML = `
                 <a href="manager2" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> ManagerAnun
+                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
+                    Anuncios
                 </a>`;
                 let newListItem3 = document.createElement('li');
 
                 newListItem3.innerHTML = `
                     <a href="manager3" class="opciones">
-                        <i class="fa-solid fa-clipboard-list"></i> ManagerUsers
+                        <i class="fa-solid fa-clipboard-list"></i> Gestor 
+                        Usuarios
                     </a>`;
             hiper.appendChild(newListItem);
             hiper.appendChild(newListItem2);
