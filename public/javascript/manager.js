@@ -49,18 +49,16 @@ async function mostrarTexto() {
             vigenciatotal = 'Pendiente ⌚';
         }
 
-        if (tiporeporteReverse[i] === 0) {
-            // No hay tipo especificado
-        } else if (tiporeporteReverse[i] === 1) {
-            tiporeportetotal = 'Limpieza';
-        } else if (tiporeporteReverse[i] === 2) {
-            tiporeportetotal = 'TI';
-        } else if (tiporeporteReverse[i] === 3) {
-            tiporeportetotal = 'Estructura';
-        } else if (tiporeporteReverse[i] === 4) {
-            tiporeportetotal = 'Eléctrico';
-        }
-    
+        if (tiporeporteReverse[i] == 0){
+        } else if (tiporeporteReverse[i] == 1) {
+            tiporeportetotal = 'Limpieza 🧹';
+        } else if (tiporeporteReverse[i] == 2) {
+            tiporeportetotal = 'TI 👩‍💻';
+        } else if (tiporeporteReverse[i] == 3) {
+            tiporeportetotal = 'Estructura 🧰';
+        } else if (tiporeporteReverse[i] == 4) {
+            tiporeportetotal = 'Mantenimiento ⚡🧰';
+        } else {}
 
         let nombre = document.createTextNode(nomreportesReverse[i]);
         let descripcion = document.createTextNode(descreportesReverse[i]);

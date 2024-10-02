@@ -73,7 +73,7 @@ async function mostrarTexto() {
                 } else if (tiporeporteReverse[i] == 3) {
                     tiporeportetotal = 'Estructura 🧰';
                 } else if (tiporeporteReverse[i] == 4) {
-                    tiporeportetotal = 'Eléctrico ⚡';
+                    tiporeportetotal = 'Mantenimiento ⚡🧰';
                 } else {}
                 
                 let usuario = document.createTextNode(usuarionomReverse[i]);
