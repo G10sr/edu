@@ -175,20 +175,20 @@ select {
     -ms-user-select:none;
     user-select:none;
 }
-.minigrid{
+
+.minigrid {
     position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select:none;
     user-select:none;
-}
-.minigrid {
     display: flex;
     flex-direction: column;
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    min-height: 200px;
 }
 
 
@@ -197,7 +197,7 @@ select {
 }
 .titulobox{
     position: relative;
-    font-size: 2.6dvh;
+    font-size: 1.3rem;
     font-family: "Nunito", sans-serif;
     margin-left: 3vh;
     margin-right: 1vh;
@@ -208,7 +208,7 @@ select {
 }
 .displayuser{
     position: absolute;
-    font-size: 1.6dvh;
+    font-size: 0.7rem;
     font-family: "Nunito", sans-serif;
     font-weight: 300;
     top: 5px; 
@@ -216,7 +216,7 @@ select {
 }
 .descbox {
     position: relative;
-    font-size: 2.2dvh;
+    font-size: 1.1rem;
     font-family: "Nunito", sans-serif;
     margin-left: 3vh;
     margin-right: 1vh;
@@ -247,7 +247,7 @@ select {
     left: 16px;  
     text-transform: uppercase;
     text-decoration:wavy;
-    font-size: 1.9dvh;
+    font-size: 0.9rem;
     font-family: "Nunito", sans-serif;
     font-weight: 1000;
 }
@@ -256,7 +256,7 @@ select {
     top: 5px; 
     left: 16px;  
     text-transform: uppercase;
-    font-size: 1.2dvh;
+    font-size: 0.6rem;
     font-family: "Nunito", sans-serif;
     color: #6a6a6a;
 }
@@ -267,7 +267,7 @@ select {
     margin-right: 60px;
     text-transform: uppercase;
     text-decoration:wavy;
-    font-size: 1.9dvh;
+    font-size: 0.9rem;
     font-family: "Nunito", sans-serif;
     font-weight: 1000;
 }
@@ -284,7 +284,8 @@ select {
     
     margin-left: 20%;
 }
-@media(min-width:930px) {
+@media(min-width:950px) {
+
     .rp-box{
         visibility: hidden;
         position: absolute;
@@ -429,6 +430,12 @@ select {
       }
 }
 @media(max-width:930px) {
+    .vig{
+        margin-right: 20px;
+    }
+    .aula{
+        margin-left: 20px ;
+    }
     #texto{
         font-size: medium;
     }

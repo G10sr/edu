@@ -3,6 +3,7 @@ let ids = [];
 var booling = 0; 
 var booling1 = 0; 
 let notdone=0;
+var rol = []; 
 
 async function mostrarTexto() {
     booling = 0; 
@@ -38,6 +39,8 @@ async function mostrarTexto() {
     
     let contenedor = document.getElementById("grid");
     for (let i = 0; i < nomreportes.length; i++) {
+        console.log(rol.rolId[0]+ ''+ tiporeporteReverse[i])
+        if(rol.rolId[0] == (tiporeporteReverse[i]+2)|| rol.rolId[0] == 1){
         let vigenciatotal = 'Resuelto ✔️';
         let tiporeportetotal = 'Ninguno Especifico';
 
@@ -99,7 +102,7 @@ async function mostrarTexto() {
             checkbox.className = 'checkbox'; 
             checkbox.dataset.i = i; 
             checkbox.dataset.l = l; 
-            checkbox.onclick = (event) => handleCheckboxClick(event, idReverse[i]); // Llama a la función de manejo de checkbox
+            checkbox.onclick = (event) => handleCheckboxClick(event, idReverse[i]); 
 
             const label = document.createElement('label');
             label.className = 'labelsmanager';
@@ -119,6 +122,7 @@ async function mostrarTexto() {
         desc.append(opcion0);
         caja.appendChild(tip);
         contenedor.appendChild(caja);
+        }
     }
 }
 
@@ -142,7 +146,7 @@ async function handleCheckboxClick(event, reportId) {
         await fetch('/api/roles')
         .then(response => response.json())  
         .then(data => {
-        let rol = data; 
+        rol = data; 
         if (rol.rolId[0]==1){
             fetch('/api/update-report', {
                 method: 'POST',
@@ -186,35 +190,34 @@ async function rolesfunc() {
     await fetch('/api/roles')
     .then(response => response.json())  
     .then(data => {
-        let rol = data; 
-        if (rol.rolId[0]==1){
-            if(notdone == 0){
+        rol=data;
+        if ([1, 3, 4, 5, 6].includes(rol.rolId[0])) { 
+            if (notdone === 0) {
                 var hiper = document.getElementById("hipervinculos");
+
                 let newListItem = document.createElement('li');
-    
                 newListItem.innerHTML = `
-                <a href="manager" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                    Reportes
-                </a>`;
-            let newListItem2 = document.createElement('li');
-
-            newListItem2.innerHTML = `
-                <a href="manager2" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                    Anuncios
-                </a>`;
-                let newListItem3 = document.createElement('li');
-
-                newListItem3.innerHTML = `
-                    <a href="manager3" class="opciones">
-                        <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                        Usuarios
+                    <a href="manager" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> Gestor Reportes
                     </a>`;
-            hiper.appendChild(newListItem);
-            hiper.appendChild(newListItem2);
-            hiper.appendChild(newListItem3);
-            notdone = 1;
+                hiper.appendChild(newListItem);
+
+                if (rol.rolId[0] === 1) {
+                    let newListItem2 = document.createElement('li');
+                    newListItem2.innerHTML = `
+                        <a href="manager2" class="opciones">
+                            <i class="fa-solid fa-clipboard-list"></i> Gestor Anuncios
+                        </a>`;
+                    let newListItem3 = document.createElement('li');
+                    newListItem3.innerHTML = `
+                        <a href="manager3" class="opciones">
+                            <i class="fa-solid fa-clipboard-list"></i> Gestor Usuarios
+                        </a>`;
+                    hiper.appendChild(newListItem2);
+                    hiper.appendChild(newListItem3);
+                }
+
+                notdone = 1; // Marca como completado
             }
             
         } else {
@@ -245,9 +248,9 @@ async function postverificacion() {
 }
 
 window.onload = function() {
+    rolesfunc();
     mostrarTexto();
     postverificacion();
-    rolesfunc();
     verificarNuevosReportes();
     verificarNuevosAnuncios();
 };

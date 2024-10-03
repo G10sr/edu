@@ -63,7 +63,7 @@ async function mostrarUsuarios() {
 
         const checkboxContainer = document.createElement('div');
 
-        for (let l = 0; l <= 2; l++) {
+        for (let l = 0; l <= 6; l++) {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.className = 'checkbox';
@@ -74,14 +74,43 @@ async function mostrarUsuarios() {
             checkbox.onclick = function(event) {
                 handleCheckboxClick(event, ids[i], permisosUsuarios[i], l);
             };
-
+            let labelrol;
+            switch (l) {
+              case 0:
+                labelrol = 'None';
+                break;
+              case 1:
+                labelrol = 'Admin';
+                break;
+              case 2:
+                labelrol = 'Profesor';
+                break;
+              case 3:
+                labelrol = 'TI';
+                break;
+              case 4:
+                labelrol = 'Limpieza';
+                break;
+              case 5:
+                labelrol = 'Infraestructura';
+                break;
+              case 6:
+                labelrol = 'Mantenimiento';
+                break;
+              default:
+                labelrol = 'Desconocido'; 
+            }
             const label = document.createElement('label');
             label.className = 'labelsmanager';
-            label.textContent = l === 0 ? 'None' : (l === 1 ? 'Admin' : 'Profesor');
+            label.textContent = labelrol;
 
             checkbox.checked = (rolIds[i] === 0 && l === 0) ||
-                (rolIds[i] === 1 && l === 1) ||
-                (rolIds[i] === 2 && l === 2);
+            (rolIds[i] === 1 && l === 1) ||
+            (rolIds[i] === 2 && l === 2) ||
+            (rolIds[i] === 3 && l === 3) ||
+            (rolIds[i] === 4 && l === 4) ||
+            (rolIds[i] === 5 && l === 5) ||
+            (rolIds[i] === 6 && l === 6);  
 
             checkboxContainer.appendChild(checkbox);
             checkboxContainer.appendChild(label);
@@ -256,34 +285,33 @@ async function rolesfunc() {
     .then(response => response.json())  
     .then(data => {
         let rol = data; 
-        if (rol.rolId[0]==1){
-            if(notdone == 0){
+        if ([1, 3, 4, 5, 6].includes(rol.rolId[0])) {  // Verifica si el rol está en la lista permitida
+            if (notdone === 0) {
                 var hiper = document.getElementById("hipervinculos");
+
                 let newListItem = document.createElement('li');
-    
                 newListItem.innerHTML = `
-                <a href="manager" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                    Reportes
-                </a>`;
-            let newListItem2 = document.createElement('li');
-
-            newListItem2.innerHTML = `
-                <a href="manager2" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                    Anuncios
-                </a>`;
-                let newListItem3 = document.createElement('li');
-
-                newListItem3.innerHTML = `
-                    <a href="manager3" class="opciones">
-                        <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                        Usuarios
+                    <a href="manager" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> Gestor Reportes
                     </a>`;
-            hiper.appendChild(newListItem);
-            hiper.appendChild(newListItem2);
-            hiper.appendChild(newListItem3);
-            notdone = 1;
+                hiper.appendChild(newListItem);
+
+                if (rol.rolId[0] === 1) {
+                    let newListItem2 = document.createElement('li');
+                    newListItem2.innerHTML = `
+                        <a href="manager2" class="opciones">
+                            <i class="fa-solid fa-clipboard-list"></i> Gestor Anuncios
+                        </a>`;
+                    let newListItem3 = document.createElement('li');
+                    newListItem3.innerHTML = `
+                        <a href="manager3" class="opciones">
+                            <i class="fa-solid fa-clipboard-list"></i> Gestor Usuarios
+                        </a>`;
+                    hiper.appendChild(newListItem2);
+                    hiper.appendChild(newListItem3);
+                }
+
+                notdone = 1; // Marca como completado
             }
             
         } else {

@@ -4,10 +4,8 @@ async function rolesfunc() {
     await fetch('/api/roles')
     .then(response => response.json())  
     .then(data => {
-        booling = 0; 
-        booling1 = 0; 
         let rol = data; 
-        if (rol.rolId[0]==1){
+        if (rol.rolId[0]==1 || rol.rolId[0]==3 || rol.rolId[0]==4 || rol.rolId[0]==5 || rol.rolId[0]==6){
             var hiper = document.getElementById("hipervinculos");
             let newListItem = document.createElement('li');
 
@@ -16,8 +14,10 @@ async function rolesfunc() {
                     <i class="fa-solid fa-clipboard-list"></i> Gestor 
                     Reportes
                 </a>`;
-            let newListItem2 = document.createElement('li');
+                hiper.appendChild(newListItem);
+            if (rol.rolId[0]== 1){
 
+            let newListItem2 = document.createElement('li');
             newListItem2.innerHTML = `
                 <a href="manager2" class="opciones">
                     <i class="fa-solid fa-clipboard-list"></i> Gestor 
@@ -30,9 +30,9 @@ async function rolesfunc() {
                         <i class="fa-solid fa-clipboard-list"></i> Gestor 
                         Usuarios
                     </a>`;
-            hiper.appendChild(newListItem);
-            hiper.appendChild(newListItem2);
+                    hiper.appendChild(newListItem2);
             hiper.appendChild(newListItem3);
+            }
         } else {
         }
     })

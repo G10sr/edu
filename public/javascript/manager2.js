@@ -169,35 +169,35 @@ async function rolesfunc() {
     .then(response => response.json())  
     .then(data => {
         let rol = data; 
-        if (rol.rolId[0]==1){
-            if(notdone == 0){
+        if ([1, 3, 4, 5, 6].includes(rol.rolId[0])) {  // Verifica si el rol está en la lista permitida
+            if (notdone === 0) {
                 var hiper = document.getElementById("hipervinculos");
+
                 let newListItem = document.createElement('li');
-    
                 newListItem.innerHTML = `
-                <a href="manager" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                    Reportes
-                </a>`;
-            let newListItem2 = document.createElement('li');
-
-            newListItem2.innerHTML = `
-                <a href="manager2" class="opciones">
-                    <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                    Anuncios
-                </a>`;
-                let newListItem3 = document.createElement('li');
-
-                newListItem3.innerHTML = `
-                    <a href="manager3" class="opciones">
-                        <i class="fa-solid fa-clipboard-list"></i> Gestor 
-                        Usuarios
+                    <a href="manager" class="opciones">
+                        <i class="fa-solid fa-clipboard-list"></i> Gestor Reportes
                     </a>`;
-            hiper.appendChild(newListItem);
-            hiper.appendChild(newListItem2);
-            hiper.appendChild(newListItem3);
-            notdone = 1;
+                hiper.appendChild(newListItem);
+
+                if (rol.rolId[0] === 1) {
+                    let newListItem2 = document.createElement('li');
+                    newListItem2.innerHTML = `
+                        <a href="manager2" class="opciones">
+                            <i class="fa-solid fa-clipboard-list"></i> Gestor Anuncios
+                        </a>`;
+                    let newListItem3 = document.createElement('li');
+                    newListItem3.innerHTML = `
+                        <a href="manager3" class="opciones">
+                            <i class="fa-solid fa-clipboard-list"></i> Gestor Usuarios
+                        </a>`;
+                    hiper.appendChild(newListItem2);
+                    hiper.appendChild(newListItem3);
+                }
+
+                notdone = 1; // Marca como completado
             }
+            
             
         } else {
             alert("You don't have permission for this")
