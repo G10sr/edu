@@ -13,7 +13,31 @@
     </head>
     <body>
         <style>
-    
+            .textk{
+                position: absolute;
+                gap: 4.1px;
+                top: 40vh;
+                left: 157vh;
+                width: fit-content;
+            }
+            @media (max-width: 930px) {
+                .textk{
+                display: flex;
+                position: absolute;
+                align-items: first baseline;
+                gap: 4.1px;
+                top: 8%;
+                left: 15%;
+                width: fit-content;
+            }
+            }
+            
+            .textk #a{
+                color: rgb(98, 185, 159);
+            }
+            .textk #b{
+                color: rgb(126, 145, 144);
+            }
             #ey40nT29W7O1 {
                 height: 2000px;
                 width: auto;
@@ -37,7 +61,7 @@
                 #map {
                 display: inline-block;
                 overflow: scroll;
-                margin-top: 20%;
+                margin-top: 25%;
                 margin-left: 8%;
                 position: absolute;
                 height: 85%;
@@ -72,6 +96,7 @@
             #zoom-controls button:hover {
                 background-color: darkgray;
             }
+
             </style>
         <input type="checkbox" id="menu"><img class="menuimg" src="/imagenes/menu.png" >
         <div class="rp-box"></div>
@@ -151,7 +176,6 @@ DAI
 ]]></tspan></text>
 
 </svg>
-
     </div>
         <div id="navbar">
             <button id="logoutButton" onclick="logout()">Log Out <i class="fa-solid fa-right-from-bracket"></i></button>
@@ -159,7 +183,10 @@ DAI
         <div id="zoom-controls">
             <button onclick="zoomIn()">➕</button>
             <button onclick="zoomOut()">➖</button>
+            
         </div>
+        <a class="textk"><p id="a">Turquesa</p> para reportes, <p id="b">Gris</p> para anuncios.</a>
+
     </body>
     <script src="../javascript/mapa.js"></script>   
     

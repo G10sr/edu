@@ -77,7 +77,7 @@ async function mostrarUsuarios() {
             let labelrol;
             switch (l) {
               case 0:
-                labelrol = 'None';
+                labelrol = 'Guest';
                 break;
               case 1:
                 labelrol = 'Admin';
@@ -86,10 +86,10 @@ async function mostrarUsuarios() {
                 labelrol = 'Profesor';
                 break;
               case 3:
-                labelrol = 'TI';
+                labelrol = 'Limpieza';
                 break;
               case 4:
-                labelrol = 'Limpieza';
+                labelrol = 'TI';
                 break;
               case 5:
                 labelrol = 'Infraestructura';

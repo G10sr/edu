@@ -412,6 +412,17 @@ app.get('/api/mapa', (req,res) => {
     res.json(resultsrep);
     });
  }); 
+ app.get('/api/mapa2', (req,res) => {
+    const queryrep = 'SELECT anuncios.*, lugar.*FROM anuncios JOIN lugar ON anuncios.lugar_id = lugar.id;';
+ 
+    connection.query(queryrep, (error, resultsrep) => {
+       if (error) {
+          return next(error);
+ 
+       }      
+    res.json(resultsrep);
+    });
+ }); 
 
  //selectores
 
