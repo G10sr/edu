@@ -328,7 +328,7 @@ select {
     .opciones{
         color: rgb(255, 255, 255);
         font-family: "Nunito", sans-serif;
-        font-size: 4dvh;
+        font-size: 1.3rem;
         width: fit-content;
         transition-duration: 50ms;
 
@@ -487,7 +487,7 @@ select {
         margin-top: 0%;
         z-index: 3;
         position: fixed;
-        height: 100%;
+        height: 120%;
         width: 50%;
         left: -50%;
         background: #30ac8dee;
@@ -523,7 +523,7 @@ select {
     .opciones{
         color: rgb(255, 255, 255);
         font-family: "Nunito", sans-serif;        
-        font-size: 3dvh;
+        font-size: 1.1rem;
         width: fit-content;
         transition-duration: 50ms;
 
