@@ -106,8 +106,7 @@ async function mostrarTexto() {
             "Sin anuncios, ¡así que a pensar en helados! 🍦",
             "Todo tranquilo, ¡a seguir soñando! 💭",
             "Nada por aquí, ¡a seguir brillando! ✨",
-            "Sin anuncios, ¡dame un high five! 🙌",
-            "No hay anuncios, ¡así que a bailar! 💃"
+            "Sin anuncios, ¡dame un high five! 🙌"
         ];
     
         const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];

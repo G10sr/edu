@@ -139,7 +139,6 @@ async function mostrarTexto() {
             "Todo en calma, como un gato en el sol. ☀️",
             "Sin novedades, ¡dame un aplauso! 👏",
             "¿Vacaciones? ¡Casi! Sin reportes hoy. 🏖️",
-            "Sin reportes, ¡así que a bailar! 💃",
             "Todo bien, ¡nada de dramas aquí! 🎭"
         ];
     

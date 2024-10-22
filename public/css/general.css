@@ -267,7 +267,8 @@ select {
     position: absolute;
     bottom: 10px; 
     left: 140px;  
-    margin-right: 60px;
+    margin-right: 20px;
+    margin-left: 60px;
     text-transform: uppercase;
     text-decoration:wavy;
     font-size: 0.9rem;
